@@ -3,7 +3,7 @@
 
 #include <QSize>
 #include <QString>
-#include "opencv2/opencv.hpp"
+#include <opencv2/opencv.hpp>
 
 class CaptureDevice
 {

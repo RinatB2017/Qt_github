@@ -2,8 +2,7 @@
 #define MAIN_H
 
 #include <QString>
-#include "opencv2/opencv.hpp"
-
+#include <opencv2/opencv.hpp>
 // ----------------------------------------------------------
 // MoveNoid - Арканоид с бесконтактным управлением
 // Волгодонск, 2017 г.

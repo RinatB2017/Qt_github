@@ -99,4 +99,20 @@ unix {
     LIBS    += -lBox2D
 }
 
+win32 {
+    INCLUDEPATH += C:/OpenCV/include/
+    LIBS += -LC:/OpenCV/x86/mingw/bin/
+    OPENCV_VER = 410 #320
+
+    LIBS += -lopencv_core$${OPENCV_VER} \
+            -lopencv_highgui$${OPENCV_VER} \
+            -lopencv_imgproc$${OPENCV_VER} \
+            -lopencv_imgcodecs$${OPENCV_VER} \
+            -lopencv_features2d$${OPENCV_VER} \
+            -lopencv_calib3d$${OPENCV_VER} \
+            -lopencv_objdetect$${OPENCV_VER} \
+            -lopencv_video$${OPENCV_VER} \
+            -lopencv_videoio$${OPENCV_VER}
+}
+
 VPATH = $$INCLUDEPATH
