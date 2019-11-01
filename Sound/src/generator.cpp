@@ -91,6 +91,17 @@ void Generator::generateData(const QAudioFormat &format,
     const int channelBytes = format.sampleSize() / 8;
     const int sampleBytes = format.channelCount() * channelBytes;
 
+//    int sr = format.sampleRate();
+//    int cc = format.channelCount();
+//    int ss = format.sampleSize();
+
+//    sr = 44100
+//    cc = 2
+//    ss = 16
+//    length = 1764000
+//    sampleIndex = 44100
+//    cnt = 10
+
     qint64 length = (format.sampleRate() * format.channelCount() * (format.sampleSize() / 8))
             * durationUs / 100000;
 
@@ -103,15 +114,24 @@ void Generator::generateData(const QAudioFormat &format,
 
     qreal lv = (qreal)left_value / 100.0;
     qreal rv = (qreal)right_value / 100.0;
+    int cnt = 0;
     while (length)
     {
         for (int i=0; i<format.channelCount(); ++i)
         {
             qreal x = qSin(2 * M_PI * (i ? sampleRate2 : sampleRate1) * qreal(sampleIndex % format.sampleRate()) / format.sampleRate());
             if(!i)
+            {
                 x *= lv;
+                if(x == 0.0)
+                {
+                    cnt++;
+                }
+            }
             else
+            {
                 x *= rv;
+            }
 
             if (format.sampleSize() == 8 && format.sampleType() == QAudioFormat::UnSignedInt)
             {
@@ -145,6 +165,7 @@ void Generator::generateData(const QAudioFormat &format,
         }
         ++sampleIndex;
     }
+    int x = 0;
 }
 //---------------------------------------------------------------------------
 qint64 Generator::readData(char *data,
