@@ -2,7 +2,7 @@
 #define CQTOPENCVVIEWERGL_H
 
 #include <QGLWidget>
-#include </usr/include/opencv2/core/core.hpp>
+#include </usr/include/opencv4/opencv2/core/core.hpp>
 
 class CQtOpenCVViewerGl : public QGLWidget
 {
@@ -26,19 +26,19 @@ protected:
     void renderImage();
 
 private:
-    bool mSceneChanged;          /// Indicates when OpenGL view is to be redrawn
+    bool mSceneChanged;     /// Indicates when OpenGL view is to be redrawn
 
-    QImage  mRenderQtImg;           /// Qt image to be rendered
-    cv::Mat mOrigImage;             /// original OpenCV image to be shown
+    QImage  mRenderQtImg;   /// Qt image to be rendered
+    cv::Mat mOrigImage;     /// original OpenCV image to be shown
 
     QColor mBgColor;		/// Background color
 
-    int   mOutH;                  /// Resized Image height
-    int   mOutW;                  /// Resized Image width
-    float mImgRatio;              /// height/width ratio
+    int   mOutH;            /// Resized Image height
+    int   mOutW;            /// Resized Image width
+    float mImgRatio;        /// height/width ratio
 
-    int   mPosX;                  /// Top left X position to render image in the center of widget
-    int   mPosY;                  /// Top left Y position to render image in the center of widget
+    int   mPosX;            /// Top left X position to render image in the center of widget
+    int   mPosY;            /// Top left Y position to render image in the center of widget
 };
 
 #endif // CQTOPENCVVIEWERGL_H

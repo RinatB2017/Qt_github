@@ -5,6 +5,7 @@ TEMPLATE    = app
 QT  += opengl
 
 DEPENDPATH += \
+    /usr/include/opencv4 \
     $$PWD/src \
     $$PWD/src/ui
 INCLUDEPATH = $$DEPENDPATH
@@ -21,7 +22,7 @@ SOURCES += \
 FORMS   += \
     cmainwindow.ui
 
-PKGCONFIG   += opencv
+#PKGCONFIG   += opencv
 CONFIG      += link_pkgconfig
 
 #------------------------------------------------------------

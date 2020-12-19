@@ -4,16 +4,18 @@
 //--------------------------------------------------------------------------------
 #include <QMessageBox>
 #include <QFileDialog>
+#include <QStyle>
 #include <QDebug>
 //--------------------------------------------------------------------------------
 #include </usr/include/stdlib.h>
-#include </usr/include/vector.h>
+//#include </usr/include/vector.h>
 //--------------------------------------------------------------------------------
-#include </usr/include/opencv2/core/core.hpp>
-#include </usr/include/opencv2/objdetect/objdetect.hpp>
-#include </usr/include/opencv2/imgproc/imgproc.hpp>
-#include </usr/include/opencv2/highgui/highgui.hpp>
-#include </usr/include/opencv2/opencv.hpp>
+#include </usr/include/opencv4/opencv2/core/core.hpp>
+#include </usr/include/opencv4/opencv2/objdetect/objdetect.hpp>
+#include </usr/include/opencv4/opencv2/imgproc/imgproc.hpp>
+#include </usr/include/opencv4/opencv2/highgui/highgui.hpp>
+#include </usr/include/opencv4/opencv2/opencv.hpp>
+#include </usr/include/opencv4/opencv2/videoio/videoio_c.h>
 //--------------------------------------------------------------------------------
 #define FEAT_FACE_FILE  "xml/haarcascade_frontalface_default.xml"
 #define FEAT_EYE_FILE   "xml/haarcascade_mcs_eyepair_big.xml"
