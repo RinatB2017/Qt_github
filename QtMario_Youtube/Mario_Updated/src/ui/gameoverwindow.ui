@@ -96,12 +96,12 @@
     <string/>
    </property>
    <property name="pixmap">
-    <pixmap resource="mario.qrc">:/images/gameover.png</pixmap>
+    <pixmap resource="../../mario.qrc">:/images/gameover.png</pixmap>
    </property>
   </widget>
  </widget>
  <resources>
-  <include location="mario.qrc"/>
+  <include location="../../mario.qrc"/>
  </resources>
  <connections/>
 </ui>
