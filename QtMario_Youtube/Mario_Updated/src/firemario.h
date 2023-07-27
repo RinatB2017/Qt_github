@@ -11,8 +11,8 @@
 class FireMario : public QGraphicsItem
 {
 public:
-     FireMario(QGraphicsItem *parent = 0);
-     ~FireMario();
+    FireMario(QGraphicsItem *parent = 0);
+    ~FireMario();
     int direction() const;
     int standingDirection() const;
     void addStandingDirection(int standingDirection);
@@ -32,11 +32,11 @@ public:
 
 private:
     enum State {
-         Standing = 0,
-         StandShoot,
-         Walking,
-         Jumping,
-         Falling
+        Standing = 0,
+        StandShoot,
+        Walking,
+        Jumping,
+        Falling
     };
 
     int m_direction;

@@ -7,8 +7,8 @@
 #include "loginwindow.h"
 #include <QMessageBox>
 
-Title::Title(View *view, QWidget *parent) : QGraphicsScene(parent){
-
+Title::Title(View *view, QWidget *parent) : QGraphicsScene(parent)
+{
     viewer = view;
     viewer->setViewportUpdateMode(QGraphicsView::SmartViewportUpdate);
     scroll = new QScrollBar;
@@ -82,7 +82,7 @@ Title::Title(View *view, QWidget *parent) : QGraphicsScene(parent){
 
     //Add line edit for password, set tooltip
     passLine = new QLineEdit(viewer);
-    passLine->setEchoMode(QLineEdit::Password);  
+    passLine->setEchoMode(QLineEdit::Password);
     passLine->setObjectName(QString("passLine"));
     passLine->setToolTip("Enter password");
     passLine->setGeometry(QRect(540, 450, 200, 25));
@@ -90,7 +90,7 @@ Title::Title(View *view, QWidget *parent) : QGraphicsScene(parent){
     //Add Label For password
     password = new QLabel(viewer);
     password->setFont(font);
-    password->setText("Password");   
+    password->setText("Password");
     password->setObjectName(QString("password"));
     password->setGeometry(QRect(430, 450, 100, 25));
 
@@ -112,126 +112,130 @@ Title::Title(View *view, QWidget *parent) : QGraphicsScene(parent){
     emit playSound("theme");
 }
 
-bool Title::regExUserTest(){
+bool Title::regExUserTest()
+{
+    bool accessGranted = false;
+    usernameRegEx = new QRegularExpression("^([a-z0-9_\\.-]+)@([\\da-z\\.-]+)\\.([a-z\\.]{2,6})$");
+    usernamenameMatch = new QRegularExpressionMatch(usernameRegEx->match(userLine->text()));
+    accessGranted = usernamenameMatch->hasMatch();
 
-bool accessGranted = false;
-usernameRegEx = new QRegularExpression("^([a-z0-9_\\.-]+)@([\\da-z\\.-]+)\\.([a-z\\.]{2,6})$");
-usernamenameMatch = new QRegularExpressionMatch(usernameRegEx->match(userLine->text()));
-accessGranted = usernamenameMatch->hasMatch();
-
-if(accessGranted){
-return true;
+    if(accessGranted)
+    {
+        return true;
+    }
+    else
+        return false;
 }
-else
-return false;
 
-}
-
-void Title::stopMusic(){
-
+void Title::stopMusic()
+{
     emit playSound("stopMusic");
 }
 
 void Title::on_radioButton_toggled(bool checked)
 {
-    if(checked){
+    if(checked)
+    {
         passLine->setEchoMode(QLineEdit::Normal);
     }
-    else{
+    else
+    {
         passLine->setEchoMode(QLineEdit::Password);
     }
 }
 
-void Title::quitProgram(){
-
+void Title::quitProgram()
+{
     qApp->quit();
 }
 
- void Title::login(){
-//Connect to Database
+void Title::login()
+{
+    //Connect to Database
     DataB::DBConnect(DBase);
     //Error for lack of input
 
-    if(userLine->text().isEmpty()){
-         QMessageBox msgBox;
-         msgBox.setText("You must enter a username.   ");
-         msgBox.setWindowTitle("Warning");
-         msgBox.exec();
-         return;
-     }
-    if(regExUserTest()== false){
+    if(userLine->text().isEmpty())
+    {
+        QMessageBox msgBox;
+        msgBox.setText("You must enter a username.   ");
+        msgBox.setWindowTitle("Warning");
+        msgBox.exec();
+        return;
+    }
+    if(regExUserTest()== false)
+    {
         QMessageBox msgBoxFail;
         msgBoxFail.setText("That is not a valid email address.   ");
         msgBoxFail.setWindowTitle("Warning");
         msgBoxFail.exec();
         return;
     }
-     if(passLine->text().isEmpty()){
-         QMessageBox msgBox2;
-         msgBox2.setText("You must enter a password.  ");
-         msgBox2.setWindowTitle("Warning");
-         msgBox2.exec();
-         return;
-      }
+    if(passLine->text().isEmpty())
+    {
+        QMessageBox msgBox2;
+        msgBox2.setText("You must enter a password.  ");
+        msgBox2.setWindowTitle("Warning");
+        msgBox2.exec();
+        return;
+    }
 
-         //Gather Input
-         Query uInput;
-         uInput.uName=userLine->text();
-         uInput.pass=passLine->text();
-         qDebug() << uInput.uName;
-         qDebug() << uInput.pass;
+    //Gather Input
+    Query uInput;
+    uInput.uName=userLine->text();
+    uInput.pass=passLine->text();
+    qDebug() << uInput.uName;
+    qDebug() << uInput.pass;
 
-      //Try to check User
-      if(DataB::cUsrPas(uInput,DBase.db)){
-      //Then it worked
-           loginButton->close();
-           newUserButton->close();
-           passLine->close();
-           userLine->close();
-           userName->close();
-           password->close();
-           radioButton->close();
-           radioText->close();
-           developerButton->close();
-           quitButton->close();        
+    //Try to check User
+    if(DataB::cUsrPas(uInput,DBase.db))
+    {
+        //Then it worked
+        loginButton->close();
+        newUserButton->close();
+        passLine->close();
+        userLine->close();
+        userName->close();
+        password->close();
+        radioButton->close();
+        radioText->close();
+        developerButton->close();
+        quitButton->close();
 
-           scene = new MyScene(scroll,this);
-           viewer->sceneSet(scene);
-           emit playSound("stopMusic");
+        scene = new MyScene(scroll,this);
+        viewer->sceneSet(scene);
+        emit playSound("stopMusic");
+    }
+    else
+    {
+        //Then it didnt
+        QMessageBox msgBox3;
+        msgBox3.setText(" Combination of username and/or password incorrect.  ");
+        msgBox3.setWindowTitle("Warning");
+        msgBox3.exec();
+        return;
+    }
+}
 
-         }
-         else{
-             //Then it didnt
-           QMessageBox msgBox3;
-           msgBox3.setText(" Combination of username and/or password incorrect.  ");
-           msgBox3.setWindowTitle("Warning");
-           msgBox3.exec();
-           return;
-         }
- }
+void Title::newUser()
+{
+    loginWindow = new LoginWindow();
+    loginWindow->exec();
+}
 
- void Title::newUser(){
-
-     loginWindow = new LoginWindow();
-     loginWindow->exec();
-
- }
-
- void Title::developerLogin(){
-     loginButton->close();
-     newUserButton->close();
-     passLine->close();
-     userLine->close();
-     userName->close();
-     password->close();
-     radioButton->close();
-     radioText->close();
-     developerButton->close();
-     quitButton->close();
-     scene = new MyScene(scroll,this);
-     viewer->sceneSet(scene);
-     emit playSound("stopMusic");
-
- }
-
-
+void Title::developerLogin()
+{
+    loginButton->close();
+    newUserButton->close();
+    passLine->close();
+    userLine->close();
+    userName->close();
+    password->close();
+    radioButton->close();
+    radioText->close();
+    developerButton->close();
+    quitButton->close();
+    scene = new MyScene(scroll,this);
+    viewer->sceneSet(scene);
+    emit playSound("stopMusic");
+}

@@ -3,11 +3,13 @@
  * Date: December 2016
 */
 
+#include<QDebug>
+
 #include "soundmanager.h"
 #include "ui_soundmanager.h"
-#include<QDebug>
-SoundManager::SoundManager(QWidget *parent) : QDialog(parent), ui(new Ui::SoundManager){
 
+SoundManager::SoundManager(QWidget *parent) : QDialog(parent), ui(new Ui::SoundManager)
+{
     ui->setupUi(this);
 
     this->select = new QSoundEffect;
@@ -80,95 +82,91 @@ SoundManager::SoundManager(QWidget *parent) : QDialog(parent), ui(new Ui::SoundM
 
     this->soundPlayer = new QMediaPlayer;
     soundPlayer->setMedia(QUrl("qrc:/audio/ThemeSong.mp3"));
-
 }
 
-SoundManager::~SoundManager(){
-
+SoundManager::~SoundManager()
+{
     delete ui;
 }
 
-void SoundManager::playSoundEffect(QString which){
-
-
-    if(which == "mario_jump"){
-
+void SoundManager::playSoundEffect(QString which)
+{
+    if(which == "mario_jump")
+    {
         mario_jump->play();
     }
-    else if(which == "mario_death"){
-
+    else if(which == "mario_death")
+    {
         level1->stop();
         mario_death->play();
     }
-    else if(which == "coin"){
-
+    else if(which == "coin")
+    {
         coin->play();
     }
-    else if(which == "select"){
-
+    else if(which == "select")
+    {
         select->play();
     }
-    else if(which == "theme"){
-
+    else if(which == "theme")
+    {
         //level1->stop();
         soundPlayer->play();
     }
-    else if(which == "title"){
+    else if(which == "title")
+    {
 
     }
-    else if(which == "level1"){
-
+    else if(which == "level1")
+    {
         level1->play();
     }
-    else if(which == "stopMusic"){
-
+    else if(which == "stopMusic")
+    {
         soundPlayer->stop();
     }
-    else if(which == "stopLevelMusic"){
-
+    else if(which == "stopLevelMusic")
+    {
         level1->stop();
     }
-    else if(which == "levelClear"){
-
+    else if(which == "levelClear")
+    {
         levelClear->play();
     }
-    else if(which == "ghost"){
-
+    else if(which == "ghost")
+    {
         ghost->play();
     }
-    else if(which == "shrink"){
-
+    else if(which == "shrink")
+    {
         shrink->play();
     }
-    else if(which == "powerup"){
-
+    else if(which == "powerup")
+    {
         powerup->play();
     }
-    else if(which == "sprout"){
-
+    else if(which == "sprout")
+    {
         sprout->play();
     }
-    else if(which == "fsprout"){
-
+    else if(which == "fsprout")
+    {
         fsprout->play();
     }
-    else if(which == "kick"){
-
+    else if(which == "kick")
+    {
         kick->play();
     }
-    else if(which == "fireball"){
-
+    else if(which == "fireball")
+    {
         fireball->play();
     }
-    else if(which == "hitWarptube"){
-
+    else if(which == "hitWarptube")
+    {
         hitWarptube->play();
     }
-    else{
+    else
+    {
         return;
     }
 }
-
-
-
-

@@ -16,18 +16,20 @@ namespace DataB{
 //Outputs
 //  <-- True/false-False on failure
 ///////////////////////////////////////////////////////////////////////////////
-bool regUsr(Query Input,QSqlDatabase db){
-//Check user input against the database
+bool regUsr(Query Input,QSqlDatabase db)
+{
+    //Check user input against the database
     QString insert;
     QSqlQuery Q(db);
-    if(chkUsr(Input,db)){
-    //Define SQL Query
+    if(chkUsr(Input,db))
+    {
+        //Define SQL Query
         insert="INSERT INTO mario_table (username,password) VALUES "
                "('"+Input.uName+"', SHA1('"+Input.pass+"'))";
         Q.exec(insert);
         db.close();
         return true;
-    //Upon Failure
+        //Upon Failure
     }else{db.close(); return false;}
 }
 //*****************************************************************************
@@ -38,18 +40,25 @@ bool regUsr(Query Input,QSqlDatabase db){
 //Outputs
 //  <-- True/false-False on failure
 ///////////////////////////////////////////////////////////////////////////////
-bool chkUsr(Query Input,QSqlDatabase db){
+bool chkUsr(Query Input,QSqlDatabase db)
+{
     QSqlQuery Q(db);
     QString select;
-//Setup a boolean
+    //Setup a boolean
     bool valid=true;
-//Define the Query
+    //Define the Query
     select="SELECT username FROM mario_table WHERE username='"
             +Input.uName+"'";
     Q.exec(select);
-    if(Q.size()==1){ return false; }
-//Upon Success
-    else{ return valid; }
+    if(Q.size()==1)
+    {
+        return false;
+    }
+    //Upon Success
+    else
+    {
+        return valid;
+    }
 }
 //*****************************************************************************
 //*****************************************************************************
@@ -59,19 +68,21 @@ bool chkUsr(Query Input,QSqlDatabase db){
 //Outputs
 //  <-- True/false-False on failure
 ///////////////////////////////////////////////////////////////////////////////
-bool DBConnect(Connection C){
-//Connect to database
+bool DBConnect(Connection C)
+{
+    //Connect to database
     C.db = QSqlDatabase::addDatabase("QMYSQL");
     C.db.setHostName("209.129.8.7");
     C.db.setDatabaseName("48037");
     C.db.setUserName("48037");
     C.db.setPassword("48037cis17b");
-//Check Connection
-    if(!C.db.open()){
+    //Check Connection
+    if(!C.db.open())
+    {
         C.connected=false;
         return C.connected;
     }
-//Successful Connection
+    //Successful Connection
     C.connected=true;
     return C.connected;
 }
@@ -83,21 +94,26 @@ bool DBConnect(Connection C){
 //Outputs
 //  <-- True/false-False on failure
 ///////////////////////////////////////////////////////////////////////////////
-bool cUsrPas(Query Input,QSqlDatabase db){
+bool cUsrPas(Query Input,QSqlDatabase db)
+{
     QSqlQuery Q(db);
     QString select;
-//Setup a boolean
+    //Setup a boolean
     bool valid=true;
-//Define the Query
+    //Define the Query
     select="SELECT username FROM mario_table WHERE username='"
             +Input.uName+"' AND password=SHA1('"+Input.pass+"')";
     Q.exec(select);
-//Check for a match
-    if(Q.size()!=1){ return false; }
-//Upon Success
-    else{ return valid; }
+    //Check for a match
+    if(Q.size()!=1)
+    {
+        return false;
+    }
+    //Upon Success
+    else
+    {
+        return valid;
+    }
 }
-
-
 
 }

@@ -105,10 +105,10 @@ About_Dialog::About_Dialog(QWidget *parent) :
     groupMember4->setTextFormat(Qt::RichText);
     groupMember4->setTextInteractionFlags(Qt::TextBrowserInteraction);
     groupMember4->setOpenExternalLinks(true);
-    groupMember4->setContentsMargins(0,0,10,0); 
-
+    groupMember4->setContentsMargins(0,0,10,0);
 }
 
-About_Dialog::~About_Dialog(){
+About_Dialog::~About_Dialog()
+{
     delete ui;
 }

@@ -43,11 +43,11 @@ WeatherStation::WeatherStation(QWidget *parent)
     mainLayout->addWidget(timeLabel, 1, 0);
     mainLayout->addWidget(timeLineEdit, 1, 1);
     //mainLayout->addWidget(temperatureLabel, 2, 0);
-   // mainLayout->addWidget(temperatureLineEdit, 2, 1);
-   // mainLayout->addWidget(humidityLabel, 3, 0);
-   // mainLayout->addWidget(humidityLineEdit, 3, 1);
+    // mainLayout->addWidget(temperatureLineEdit, 2, 1);
+    // mainLayout->addWidget(humidityLabel, 3, 0);
+    // mainLayout->addWidget(humidityLineEdit, 3, 1);
     //mainLayout->addWidget(altitudeLabel, 4, 0);
-   // mainLayout->addWidget(altitudeLineEdit, 4, 1);
+    // mainLayout->addWidget(altitudeLineEdit, 4, 1);
     setLayout(mainLayout);
 
     setWindowTitle(tr("Date and Time"));
@@ -57,7 +57,8 @@ void WeatherStation::processPendingDatagrams()
 {
     QByteArray datagram;
 
-    do {
+    do
+    {
         datagram.resize(udpSocket.pendingDatagramSize());
         udpSocket.readDatagram(datagram.data(), datagram.size());
     } while (udpSocket.hasPendingDatagrams());

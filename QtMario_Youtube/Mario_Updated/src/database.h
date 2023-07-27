@@ -18,8 +18,8 @@ struct Query{
     QString pass;
 };
 
-namespace DataB{
-
+namespace DataB
+{
 //*****************************************************************************
 //*****************************************************************************
 //                          SQL and Database Functions
@@ -33,6 +33,5 @@ bool chkUsr(Query,QSqlDatabase);
 bool cUsrPas(Query,QSqlDatabase);
 //Connects to Database
 bool DBConnect(Connection);
-
 }
 #endif // DATABASE_H

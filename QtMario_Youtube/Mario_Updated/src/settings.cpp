@@ -6,8 +6,8 @@
 #include "settings.h"
 #include <iostream>
 
-Settings::Settings(QWidget *parent) : QDialog(parent){
-
+Settings::Settings(QWidget *parent) : QDialog(parent)
+{
     label = new QLabel(tr("Developer Login: "));
     lineEdit = new QLineEdit;
     lineEdit->setObjectName(QString("lineEdit"));
@@ -78,44 +78,46 @@ Settings::Settings(QWidget *parent) : QDialog(parent){
     setLayout(mainLayout);
     setWindowModality(Qt::WindowModal);
     setWindowTitle("Settings");
-
 }
 
-void Settings::reject() {
-
+void Settings::reject()
+{
     this->revertState();
     QDialog::reject();
 }
 
-void Settings::setState() {
-
+void Settings::setState()
+{
     full = fullScreenView->isChecked();
     window = windowedView->isChecked();
     bgm = bgmSlider->value();
     sfx = sfxSlider->value();
 }
 
-void Settings::revertState() {
-
+void Settings::revertState()
+{
     fullScreenView->setChecked(full);
     windowedView->setChecked(window);
     bgmSlider->setValue(bgm);
     sfxSlider->setValue(sfx);
 }
 
-void Settings::alterState() {
-
-    if(full){
+void Settings::alterState()
+{
+    if(full)
+    {
         windowedView->setChecked(true);
-    } else {
+    }
+    else
+    {
         fullScreenView->setChecked(true);
     }
     this->show();
     this->confirm();
 }
 
-void Settings::readSettings() {
-
+void Settings::readSettings()
+{
     QSettings settings("CSC-17B Mario Group", "Mario Game");
     fullScreenView->setChecked(settings.value("fullscreen", false).toBool());
     bgmSlider->setValue(settings.value("bgm", 50).toInt());
@@ -123,30 +125,29 @@ void Settings::readSettings() {
     confirm();
 }
 
-void Settings::writeSettings() {
-
+void Settings::writeSettings()
+{
     QSettings settings("CSC-17B Mario Group", "Mario Game");
     settings.setValue("fullscreen", fullScreenView->isChecked());
     settings.setValue("bgm", bgmSlider->value());
     settings.setValue("sfx", sfxSlider->value());
 }
 
-void Settings::bgmChanged() {
-
+void Settings::bgmChanged()
+{
     emit bgmAdjust(bgmSlider->value());
 }
 
-void Settings::sfxChanged() {
-
+void Settings::sfxChanged()
+{
     emit sfxAdjust(sfxSlider->value());
 }
 
-void Settings::confirm() {
-
+void Settings::confirm()
+{
     emit fullScreen(fullScreenView->isChecked());
     emit bgmAdjust(bgmSlider->value());
     emit sfxAdjust(sfxSlider->value());
     this->setState();
     this->close();
-
 }

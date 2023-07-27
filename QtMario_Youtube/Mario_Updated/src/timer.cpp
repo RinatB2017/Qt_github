@@ -8,9 +8,8 @@
 #include <QFont>
 #include<QFontDatabase>
 
-
-Timer::Timer(QGraphicsItem *parent): QGraphicsTextItem(parent){
-
+Timer::Timer(QGraphicsItem *parent): QGraphicsTextItem(parent)
+{
     // initialize the coinCount to 400
     timeCount = 400;
 
@@ -21,24 +20,23 @@ Timer::Timer(QGraphicsItem *parent): QGraphicsTextItem(parent){
     setDefaultTextColor(Qt::black);
     setFont(QFont("CoinCount2",30));
     startTimer(1000);
-
 }
 
-void Timer::timerEvent(QTimerEvent *){
-
+void Timer::timerEvent(QTimerEvent *)
+{
     decrease();
 }
 
-void Timer::decrease(){
-
-    if(0 != timeCount){
+void Timer::decrease()
+{
+    if(0 != timeCount)
+    {
         timeCount--;
         setPlainText(QString("") + QString::number(timeCount));
     }
-
 }
 
-int Timer::getTime(){
+int Timer::getTime()
+{
     return timeCount;
-
 }

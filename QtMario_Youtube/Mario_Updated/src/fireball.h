@@ -30,11 +30,11 @@ signals:
     void changeFireball(int);
     void fireballCollision();
     void collideGoomba();
+
 public slots:
     void moveBullet();
 
 private:
-
     enum State {
         notBouncing = 0,
         bouncing,

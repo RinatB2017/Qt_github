@@ -16,27 +16,27 @@ Coin::Coin(QGraphicsItem *parent)
 
 }
 
-void Coin::nextFrame2(){
-
+void Coin::nextFrame2()
+{
     mCurrentFrame2 += 38;
-    if (mCurrentFrame2 >= 300 ) {
+    if (mCurrentFrame2 >= 300 )
+    {
         mCurrentFrame2 = 0;
     }
 }
 
-QRectF Coin::boundingRect() const {
+QRectF Coin::boundingRect() const
+{
     return QRectF(0,0,39,41);
-
 }
 
-void Coin::paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget) {
+void Coin::paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget)
+{
     painter->drawPixmap(0,0, mPixmap2, mCurrentFrame2, 0,39, 41);
     setTransformOriginPoint(boundingRect().center());
     Q_UNUSED(widget);
     Q_UNUSED(option);
-
 }
-
 
 int Coin::type() const
 {

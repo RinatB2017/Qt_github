@@ -63,7 +63,6 @@ MyScene::MyScene(QScrollBar*s , QObject *parent) : QGraphicsScene(0,0,8000,720, 
   , m_NoteBox(0)
   , m_platform()
   , scroll(s)
-
 {
     initPlayField();
 
@@ -99,10 +98,11 @@ MyScene::MyScene(QScrollBar*s , QObject *parent) : QGraphicsScene(0,0,8000,720, 
     emit playSound("level1");
 }
 
-void MyScene::setMarioSize(int n){
-
+void MyScene::setMarioSize(int n)
+{
     int number = n;
-    if(number == 0){
+    if(number == 0)
+    {
         m_smallPlayer = new SmallMario();
         m_smallPlayer->setPos(m_player->pos().x(),m_player->pos().y()+28);
         m_smallPlayer->addDirection(m_player->direction());
@@ -112,19 +112,21 @@ void MyScene::setMarioSize(int n){
         littleMario = true;
         f_ireMario = false;
     }
-    else if(number == 1){
+    else if(number == 1)
+    {
         bigMario = false;
         littleMario = false;
         f_ireMario = false;
         emit playSound("stopLevelMusic");
-        emit playSound("mario_death");   
+        emit playSound("mario_death");
         addItem(gameover);
         gameOverWindow = new GameOverWindow();
         gameOverWindow->setFixedSize(557,355);
         gameOverWindow->setWindowFlags(((gameOverWindow->windowFlags()|Qt::CustomizeWindowHint)& ~Qt::WindowCloseButtonHint));
         gameOverWindow->exec();
     }
-    else if(number == 2){
+    else if(number == 2)
+    {
         emit playSound("powerup");
         m_player = new Player();
         m_player->setPos(m_smallPlayer->pos().x(),m_smallPlayer->pos().y()-27);
@@ -134,13 +136,15 @@ void MyScene::setMarioSize(int n){
         f_ireMario = false;
         littleMario = false;
     }
-    else if(number == 3){
+    else if(number == 3)
+    {
         emit playSound("powerup");
         bigMario = true;
         f_ireMario = false;
         littleMario = false;
     }
-    else if(number == 4){
+    else if(number == 4)
+    {
         emit playSound("powerup");
         fireMario = new FireMario();
         fireMario->setPos(m_player->pos().x(),m_player->pos().y());
@@ -150,13 +154,15 @@ void MyScene::setMarioSize(int n){
         bigMario = false;
         littleMario = false;
     }
-    else if(number == 5){
+    else if(number == 5)
+    {
         emit playSound("powerup");
         f_ireMario = true;
         bigMario = false;
         littleMario = false;
     }
-    else if(number == 6){
+    else if(number == 6)
+    {
         emit playSound("shrink");
         m_smallPlayer = new SmallMario();
         m_smallPlayer->setPos(fireMario->pos().x(),fireMario->pos().y()+28);
@@ -166,67 +172,78 @@ void MyScene::setMarioSize(int n){
         f_ireMario = false;
         littleMario = true;
     }
-    else{
+    else
+    {
         return;
     }
 }
 
 //Player key movements
-void MyScene::keyPressEvent(QKeyEvent *event){
-
+void MyScene::keyPressEvent(QKeyEvent *event)
+{
     if (event->isAutoRepeat())
         return;
 
-    switch (event->key()){
+    switch (event->key())
+    {
     case Qt::Key_Right:
-        if(bigMario){
+        if(bigMario)
+        {
             m_player->addDirection(1);
             m_player->addStandingDirection(1);
             checkTimer();
             break;
         }
-        else if(littleMario) {
+        else if(littleMario)
+        {
             m_smallPlayer->addDirection(1);
             m_smallPlayer->addStandingDirection(1);
             checkTimer();
             break;
         }
-        else if(f_ireMario) {
+        else if(f_ireMario)
+        {
             fireMario->addDirection(1);
             fireMario->addStandingDirection(1);
             checkTimer();
             break;
-        }else{
+        }
+        else
+        {
             break;
         }
         //break;
     case Qt::Key_Left:
-        if(bigMario){
+        if(bigMario)
+        {
             m_player->addDirection(-1);
             m_player->addStandingDirection(-1);
             checkTimer();
             break;
         }
-        else if(littleMario){
+        else if(littleMario)
+        {
             m_smallPlayer->addDirection(-1);
             m_smallPlayer->addStandingDirection(-1);
             checkTimer();
             break;
         }
-        else if(f_ireMario){
+        else if(f_ireMario)
+        {
             fireMario->addDirection(-1);
             fireMario->addStandingDirection(-1);
             checkTimer();
             break;
         }
-        else{
-          break;
+        else
+        {
+            break;
         }
     case Qt::Key_F:
-
-        if(f_ireMario){
-
-            if((fireMario->direction() == 0) && (fireMario->standingDirection() == -1)){
+        if(f_ireMario)
+        {
+            if((fireMario->direction() == 0) && (fireMario->standingDirection() == -1))
+            {
                 fireBall = new FireBall(fireMario->standingDirection());
                 fireMario->standShoot();
                 fireBall->setPos(fireMario->pos().x()-30,  fireMario->pos().y()+20);
@@ -236,8 +253,9 @@ void MyScene::keyPressEvent(QKeyEvent *event){
                 connect(this->fireBall, SIGNAL(collideGoomba()),this, SLOT(playHitWarp()));
                 emit playSound("fireball");
                 break;
-            }           
-            else if((fireMario->direction() == 0) && (fireMario->standingDirection() != -1)){
+            }
+            else if((fireMario->direction() == 0) && (fireMario->standingDirection() != -1))
+            {
                 fireBall = new FireBall(1);
                 fireMario->standShoot();
                 fireBall->setPos(fireMario->pos().x()+45,  fireMario->pos().y()+20);
@@ -247,8 +265,9 @@ void MyScene::keyPressEvent(QKeyEvent *event){
                 connect(this->fireBall, SIGNAL(collideGoomba()),this, SLOT(playHitWarp()));
                 emit playSound("fireball");
                 break;
-            }         
-            else if((fireMario->direction() == 1) && (fireMario->standingDirection() != -1)){
+            }
+            else if((fireMario->direction() == 1) && (fireMario->standingDirection() != -1))
+            {
                 fireBall = new FireBall(1);
                 fireMario->walk();
                 fireBall->setPos(fireMario->pos().x()+70, fireMario->pos().y()+17);
@@ -258,8 +277,9 @@ void MyScene::keyPressEvent(QKeyEvent *event){
                 connect(this->fireBall, SIGNAL(collideGoomba()),this, SLOT(playHitWarp()));
                 emit playSound("fireball");
                 break;
-            }         
-            else if((fireMario->direction() == -1) && (fireMario->standingDirection() == -1)){
+            }
+            else if((fireMario->direction() == -1) && (fireMario->standingDirection() == -1))
+            {
                 fireBall = new FireBall(fireMario->standingDirection());
                 fireMario->walk();
                 fireBall->setPos(fireMario->pos().x()-70,  fireMario->pos().y()+35);
@@ -269,73 +289,96 @@ void MyScene::keyPressEvent(QKeyEvent *event){
                 connect(this->fireBall, SIGNAL(collideGoomba()),this, SLOT(playHitWarp()));
                 emit playSound("fireball");
                 break;
-            }     
-        }
-        else if(bigMario){
-
-            if((m_player->direction() == 0) && (m_player->standingDirection() == -1)){
-                break;
-            }
-            else if((m_player->direction() == 0) && (m_player->standingDirection() != -1)){
-                break;
-            }
-            else if((m_player->direction() == 1) && (m_player->standingDirection() != -1)){
-                break;
-            }
-            else if((m_player->direction() == -1) && (m_player->standingDirection() == -1)){
-                break;
             }
         }
-        else if(littleMario){
-            if((m_smallPlayer->direction() == 0) && (m_smallPlayer->standingDirection() == -1)){
+        else if(bigMario)
+        {
+            if((m_player->direction() == 0) && (m_player->standingDirection() == -1))
+            {
                 break;
             }
-            else if((m_smallPlayer->direction() == 0) && (m_smallPlayer->standingDirection() != -1)){
+            else if((m_player->direction() == 0) && (m_player->standingDirection() != -1))
+            {
                 break;
             }
-            else if((m_smallPlayer->direction() == 1) && (m_smallPlayer->standingDirection() != -1)){
+            else if((m_player->direction() == 1) && (m_player->standingDirection() != -1))
+            {
                 break;
             }
-            else if((m_smallPlayer->direction() == -1) && (m_smallPlayer->standingDirection() == -1)){
+            else if((m_player->direction() == -1) && (m_player->standingDirection() == -1))
+            {
                 break;
             }
         }
-        else{
+        else if(littleMario)
+        {
+            if((m_smallPlayer->direction() == 0) && (m_smallPlayer->standingDirection() == -1))
+            {
+                break;
+            }
+            else if((m_smallPlayer->direction() == 0) && (m_smallPlayer->standingDirection() != -1))
+            {
+                break;
+            }
+            else if((m_smallPlayer->direction() == 1) && (m_smallPlayer->standingDirection() != -1))
+            {
+                break;
+            }
+            else if((m_smallPlayer->direction() == -1) && (m_smallPlayer->standingDirection() == -1))
+            {
+                break;
+            }
+        }
+        else
+        {
             break;
         }
 
     case Qt::Key_Space:
-
-        if(bigMario){
-            if(mFallTimer.isActive()){
+        if(bigMario)
+        {
+            if(mFallTimer.isActive())
+            {
                 return;
-            }else{
-                if (QAbstractAnimation::Stopped == m_jumpAnimation->state()){
+            }
+            else
+            {
+                if (QAbstractAnimation::Stopped == m_jumpAnimation->state())
+                {
                     m_jumpAnimation->start();
-                 emit playSound("mario_jump");
+                    emit playSound("mario_jump");
                 }
             }
             break;
         }
-        else if(littleMario){
-            if(mFallTimer.isActive()){
+        else if(littleMario)
+        {
+            if(mFallTimer.isActive())
+            {
                 return;
             }
-            else{
-                if (QAbstractAnimation::Stopped == m_jumpAnimation->state()){
+            else
+            {
+                if (QAbstractAnimation::Stopped == m_jumpAnimation->state())
+                {
                     m_jumpAnimation->start();
-                   emit playSound("mario_jump");
+                    emit playSound("mario_jump");
                 }
             }
             break;
         }
-        else if(f_ireMario){
-            if(mFallTimer.isActive()){
+        else if(f_ireMario)
+        {
+            if(mFallTimer.isActive())
+            {
                 return;
-            }else{
-                if (QAbstractAnimation::Stopped == m_jumpAnimation->state()){
+            }
+            else
+            {
+                if (QAbstractAnimation::Stopped == m_jumpAnimation->state())
+                {
                     m_jumpAnimation->start();
-                 emit playSound("mario_jump");
+                    emit playSound("mario_jump");
                 }
             }
             break;
@@ -350,20 +393,24 @@ void MyScene::keyReleaseEvent(QKeyEvent *event)
     if (event->isAutoRepeat())
         return;
 
-    switch (event->key()){
+    switch (event->key())
+    {
     case Qt::Key_Right:
-        if(bigMario){
+        if(bigMario)
+        {
             m_player->addDirection(-1);
             m_player->addStandingDirection(1);
             checkTimer();
             break;
         }
-        else if(littleMario){
+        else if(littleMario)
+        {
             m_smallPlayer->addDirection(-1);
             checkTimer();
             break;
         }
-        else if(f_ireMario){
+        else if(f_ireMario)
+        {
             fireMario->addDirection(-1);
             fireMario->addStandingDirection(1);
             checkTimer();
@@ -372,18 +419,21 @@ void MyScene::keyReleaseEvent(QKeyEvent *event)
         break;
 
     case Qt::Key_Left:
-        if(bigMario){
+        if(bigMario)
+        {
             m_player->addDirection(1);
             m_player->addStandingDirection(-1);
             checkTimer();
             break;
         }
-        else if(littleMario){
+        else if(littleMario)
+        {
             m_smallPlayer->addDirection(1);
             checkTimer();
             break;
         }
-        else if(f_ireMario){
+        else if(f_ireMario)
+        {
             fireMario->addDirection(1);
             fireMario->addStandingDirection(-1);
             checkTimer();
@@ -396,8 +446,8 @@ void MyScene::keyReleaseEvent(QKeyEvent *event)
     }
 }
 
-void MyScene::movePlayer(){
-
+void MyScene::movePlayer()
+{
     checkCollidingCoin();
     checkCollidingMushroomQuestBox();
     checkCollidingFlowerQuestBox();
@@ -405,95 +455,116 @@ void MyScene::movePlayer(){
     checkCollidingStairBlock();
     checkCollidingFlag();
     checkCollidingWarpTube();
-    if(bigMario){
+    if(bigMario)
+    {
         if(m_player->isFalling()){
             return;
         }
     }
-    else if(littleMario){
-        if(m_smallPlayer->isFalling()){
+    else if(littleMario)
+    {
+        if(m_smallPlayer->isFalling())
+        {
             return;
         }
     }
-    else if(f_ireMario){
-        if(fireMario->isFalling()){
+    else if(f_ireMario)
+    {
+        if(fireMario->isFalling())
+        {
             return;
         }
     }
 
-    if(bigMario){
+    if(bigMario)
+    {
         m_player->nextFrame();
     }
-    else if(littleMario){
-
+    else if(littleMario)
+    {
         m_smallPlayer->nextFrame();
     }
-    else if(f_ireMario){
-
+    else if(f_ireMario)
+    {
         fireMario->nextFrame();
     }
 
-    if(bigMario){
+    if(bigMario)
+    {
         int direction = m_player->direction();
         if (0 == direction)
             return;
     }
-    else if(littleMario){
+    else if(littleMario)
+    {
         int direction = m_smallPlayer->direction();
         if (0 == direction)
             return;
     }
-    else if(f_ireMario){
+    else if(f_ireMario)
+    {
         int direction = fireMario->direction();
         if (0 == direction)
             return;
     }
 
-    if(bigMario){   
-        if(!(m_platform && m_player->isTouchingPlatform(m_platform))&& m_jumpAnimation->state() == QAbstractAnimation::Stopped){
-            if(m_platform){
+    if(bigMario)
+    {
+        if(!(m_platform && m_player->isTouchingPlatform(m_platform))&& m_jumpAnimation->state() == QAbstractAnimation::Stopped)
+        {
+            if(m_platform)
+            {
                 m_player->fall();
-                mFallTimer.start();              
+                mFallTimer.start();
             }
         }
     }
-    else if(littleMario){
-        if(!(m_platform && m_smallPlayer->isTouchingPlatform(m_platform))&& m_jumpAnimation->state() == QAbstractAnimation::Stopped){
-            if(m_platform){
+    else if(littleMario)
+    {
+        if(!(m_platform && m_smallPlayer->isTouchingPlatform(m_platform))&& m_jumpAnimation->state() == QAbstractAnimation::Stopped)
+        {
+            if(m_platform)
+            {
                 m_smallPlayer->fall();
                 mFallTimer.start();
             }
         }
     }
-    else if(f_ireMario){
-        if(!(m_platform && fireMario->isTouchingPlatform(m_platform))&& m_jumpAnimation->state() == QAbstractAnimation::Stopped){
-            if(m_platform){
+    else if(f_ireMario)
+    {
+        if(!(m_platform && fireMario->isTouchingPlatform(m_platform))&& m_jumpAnimation->state() == QAbstractAnimation::Stopped)
+        {
+            if(m_platform)
+            {
                 fireMario->fall();
                 mFallTimer.start();
             }
         }
     }
-    else{
+    else
+    {
         return;
     }
 
-    if(bigMario){
-
+    if(bigMario)
+    {
         int direction = m_player->direction();
         const int dx = direction * m_velocity;
 
-        if (direction > 0){
-
-            if(m_player->pos().x()==7956){
+        if (direction > 0)
+        {
+            if(m_player->pos().x()==7956)
+            {
                 return;
             }
 
             m_player->moveBy(dx, 0);
             int diff = m_player->pos().x() - scroll->value();
 
-            if(diff > 800){
-
-                if(scroll->value() > 6720){
+            if(diff > 800)
+            {
+                if(scroll->value() > 6720)
+                {
                     qDebug()<<"6720";
                     return;
                 }
@@ -512,18 +583,20 @@ void MyScene::movePlayer(){
             }
         }
 
-        if (direction < 0){
-
-            if(m_player->pos().x()<0){
+        if (direction < 0)
+        {
+            if(m_player->pos().x()<0)
+            {
                 return;
             }
 
             m_player->moveBy(dx, 0);
             int diff = m_player->pos().x() - scroll->value();
 
-            if(diff < 600){
-
-                if(m_sky->pos().x() == 0){
+            if(diff < 600)
+            {
+                if(m_sky->pos().x() == 0)
+                {
                     return;
                 }
 
@@ -541,23 +614,25 @@ void MyScene::movePlayer(){
             }
         }
     }
-    else if (littleMario){
-
+    else if(littleMario)
+    {
         int direction = m_smallPlayer->direction();
         const int dx = direction * m_velocity;
 
-        if (direction > 0){
-
-            if(m_smallPlayer->pos().x()==7956){
+        if (direction > 0)
+        {
+            if(m_smallPlayer->pos().x()==7956)
+            {
                 return;
             }
 
             m_smallPlayer->moveBy(dx, 0);
             int diff2 = m_smallPlayer->pos().x() - scroll->value();
 
-            if(diff2 > 800){
-
-                if(scroll->value() > 6720){
+            if(diff2 > 800)
+            {
+                if(scroll->value() > 6720)
+                {
                     qDebug()<<"6720";
                     return;
                 }
@@ -576,18 +651,20 @@ void MyScene::movePlayer(){
             }
         }
 
-        if (direction < 0){
-
-            if(m_smallPlayer->pos().x()<0){
+        if (direction < 0)
+        {
+            if(m_smallPlayer->pos().x()<0)
+            {
                 return;
             }
 
             m_smallPlayer->moveBy(dx, 0);
             int diff2 = m_smallPlayer->pos().x() - scroll->value();
 
-            if(diff2 < 600){
-
-                if(m_sky->pos().x() == 0){
+            if(diff2 < 600)
+            {
+                if(m_sky->pos().x() == 0)
+                {
                     return;
                 }
 
@@ -605,22 +682,24 @@ void MyScene::movePlayer(){
             }
         }
     }
-
-    else if (f_ireMario){
+    else if (f_ireMario)
+    {
         int direction = fireMario->direction();
         const int dx = direction * m_velocity;
-        if (direction > 0){
-
-            if(fireMario->pos().x()==7956){
+        if (direction > 0)
+        {
+            if(fireMario->pos().x()==7956)
+            {
                 return;
             }
 
             fireMario->moveBy(dx, 0);
             int diff2 = fireMario->pos().x() - scroll->value();
 
-            if(diff2 > 800){
-
-                if(scroll->value() > 6720){
+            if(diff2 > 800)
+            {
+                if(scroll->value() > 6720)
+                {
                     qDebug()<<"6720";
                     return;
                 }
@@ -639,18 +718,20 @@ void MyScene::movePlayer(){
             }
         }
 
-        if (direction < 0){
-
-            if(fireMario->pos().x()<0){
+        if (direction < 0)
+        {
+            if(fireMario->pos().x()<0)
+            {
                 return;
             }
 
             fireMario->moveBy(dx, 0);
             int diff2 = fireMario->pos().x() - scroll->value();
 
-            if(diff2 < 600){
-
-                if(m_sky->pos().x() == 0){
+            if(diff2 < 600)
+            {
+                if(m_sky->pos().x() == 0)
+                {
                     return;
                 }
 
@@ -668,57 +749,66 @@ void MyScene::movePlayer(){
             }
         }
     }
-
-    else{
+    else
+    {
         return;
     }
 }
 
-void MyScene::jumpStatusChanged(QAbstractAnimation::State newState, QAbstractAnimation::State oldState){
-    if(newState == QAbstractAnimation::Stopped && oldState == QAbstractAnimation::Running){
+void MyScene::jumpStatusChanged(QAbstractAnimation::State newState, QAbstractAnimation::State oldState)
+{
+    if(newState == QAbstractAnimation::Stopped && oldState == QAbstractAnimation::Running)
+    {
         //handleCollisionWithPlatform();
     }
 }
 
 //Make Mario detect other platform when falling
-void MyScene::fallPlayer(){
-
-    if(bigMario){
+void MyScene::fallPlayer()
+{
+    if(bigMario)
+    {
         m_player->setPos(m_player->pos().x(), m_player->pos().y() +30);
         QGraphicsItem* item = collidingPlatforms();
-        if(item && handleCollisionWithPlatform()){
+        if(item && handleCollisionWithPlatform())
+        {
             mFallTimer.stop();
             m_player->walk();
         }
-        else if(m_player->pos().y() + m_player->boundingRect().height() >= m_groundLevel){
+        else if(m_player->pos().y() + m_player->boundingRect().height() >= m_groundLevel)
+        {
             m_player->setPos(m_player->pos().x(), m_groundLevel - m_player->boundingRect().height());
             mFallTimer.stop();
             m_player->walk();
             m_platform = 0;
         }
     }
-    else if(littleMario){
+    else if(littleMario)
+    {
         m_smallPlayer->setPos(m_smallPlayer->pos().x(), m_smallPlayer->pos().y() +30);
         QGraphicsItem* item = collidingPlatforms();
-        if(item && handleCollisionWithPlatform()){
+        if(item && handleCollisionWithPlatform())
+        {
             mFallTimer.stop();
             m_smallPlayer->walk();
-
-        } else if(m_smallPlayer->pos().y() + m_smallPlayer->boundingRect().height() >= m_groundLevel){
+        } else if(m_smallPlayer->pos().y() + m_smallPlayer->boundingRect().height() >= m_groundLevel)
+        {
             m_smallPlayer->setPos(m_smallPlayer->pos().x(), m_groundLevel - m_smallPlayer->boundingRect().height());
             mFallTimer.stop();
             m_smallPlayer->walk();
             m_platform = 0;
         }
     }
-    else if(f_ireMario){
+    else if(f_ireMario)
+    {
         fireMario->setPos(fireMario->pos().x(), fireMario->pos().y()+30);
         QGraphicsItem* item = collidingPlatforms();
-        if(item && handleCollisionWithPlatform()){
+        if(item && handleCollisionWithPlatform())
+        {
             mFallTimer.stop();
             fireMario->walk();
-
-        } else if(fireMario->pos().y() + fireMario->boundingRect().height() >= m_groundLevel){
+        } else if(fireMario->pos().y() + fireMario->boundingRect().height() >= m_groundLevel)
+        {
             fireMario->setPos(fireMario->pos().x(), m_groundLevel - fireMario->boundingRect().height());
             mFallTimer.stop();
             fireMario->walk();
@@ -728,8 +818,8 @@ void MyScene::fallPlayer(){
 }
 
 //Player jump movement
-void MyScene::jumpPlayer(){
-
+void MyScene::jumpPlayer()
+{
     checkCollidingCoin();
     checkCollidingMushroomQuestBox();
     checkCollidingFlowerQuestBox();
@@ -738,94 +828,120 @@ void MyScene::jumpPlayer(){
     checkCollidingFlag();
     checkCollidingWarpTube();
 
-    if (QAbstractAnimation::Stopped == m_jumpAnimation->state()){
+    if (QAbstractAnimation::Stopped == m_jumpAnimation->state())
+    {
         m_player->stand();
         return;
     }
 
-    if(bigMario){
+    if(bigMario)
+    {
         QGraphicsItem* item = collidingPlatforms();
-        if(item){
-            if(m_player->isTouchingHead(item)){
-
+        if(item)
+        {
+            if(m_player->isTouchingHead(item))
+            {
                 m_jumpAnimation->stop();
 
-                if(m_platform){
+                if(m_platform)
+                {
                     m_player->setPos(m_player->pos().x(), m_platform->pos().y() - m_player->boundingRect().height());
                     return;
                 }
-                if(!m_platform){
+                if(!m_platform)
+                {
                     m_player->setPos(m_player->pos().x(), m_groundLevel - m_player->boundingRect().height());
                     return;
                 }
             }
-            else{
-                if(handleCollisionWithPlatform()){
+            else
+            {
+                if(handleCollisionWithPlatform())
+                {
                     return;
                 }
             }
         }
     }
-    else if(littleMario){
+    else if(littleMario)
+    {
         QGraphicsItem* item = collidingPlatforms();
-        if(item){
-            if(m_smallPlayer->isTouchingHead(item)){
-
+        if(item)
+        {
+            if(m_smallPlayer->isTouchingHead(item))
+            {
                 m_jumpAnimation->stop();
 
-                if(m_platform){
+                if(m_platform)
+                {
                     m_smallPlayer->setPos(m_smallPlayer->pos().x(), m_platform->pos().y() - m_smallPlayer->boundingRect().height());
                     return;
                 }
-                if(!m_platform){
+                if(!m_platform)
+                {
                     m_smallPlayer->setPos(m_smallPlayer->pos().x(), m_groundLevel - m_smallPlayer->boundingRect().height());
                     return;
                 }
             }
-            else{
-                if(handleCollisionWithPlatform()){
+            else
+            {
+                if(handleCollisionWithPlatform())
+                {
                     return;
                 }
             }
         }
     }
-    else if(f_ireMario){
+    else if(f_ireMario)
+    {
         QGraphicsItem* item = collidingPlatforms();
-        if(item){
-            if(fireMario->isTouchingHead(item)){
-
+        if(item)
+        {
+            if(fireMario->isTouchingHead(item))
+            {
                 m_jumpAnimation->stop();
 
-                if(m_platform){
+                if(m_platform)
+                {
                     fireMario->setPos(fireMario->pos().x(), m_platform->pos().y() - fireMario->boundingRect().height());
                     return;
                 }
-                if(!m_platform){
+                if(!m_platform)
+                {
                     fireMario->setPos(fireMario->pos().x(), m_groundLevel - fireMario->boundingRect().height());
                     return;
                 }
             }
-            else{
-                if(handleCollisionWithPlatform()){
+            else
+            {
+                if(handleCollisionWithPlatform())
+                {
                     return;
                 }
             }
         }
     }
 
-    if(bigMario){
-        if(mFallTimer.isActive()){
+    if(bigMario)
+    {
+        if(mFallTimer.isActive())
+        {
             return;
         }
         qreal y = (m_groundLevel - m_player->boundingRect().height()) - m_jumpAnimation->currentValue().toReal() * m_jumpHeight;
-        if(m_platform){
+        if(m_platform)
+        {
             y = (m_platform->pos().y() - m_player->boundingRect().height()) - m_jumpAnimation->currentValue().toReal() * m_jumpHeight;
-            if(!(m_platform && m_player->isTouchingPlatform(m_platform)) && m_jumpFactor < 0.1 ) {
-                if((m_player->pos().x() < m_platform->pos().x()) || (m_player->pos().x() > m_platform->pos().x() + m_platform->boundingRect().width())){
-                    if(!m_platform){
+            if(!(m_platform && m_player->isTouchingPlatform(m_platform)) && m_jumpFactor < 0.1 )
+            {
+                if((m_player->pos().x() < m_platform->pos().x()) || (m_player->pos().x() > m_platform->pos().x() + m_platform->boundingRect().width()))
+                {
+                    if(!m_platform)
+                    {
                         m_platform = 0;
                     }
-                    if(m_player->pos().y() < m_groundLevel){
+                    if(m_player->pos().y() < m_groundLevel)
+                    {
                         m_player->fall();
                         mFallTimer.start();
                         return;
@@ -835,19 +951,26 @@ void MyScene::jumpPlayer(){
         }
         m_player->setPos(m_player->pos().x(), y);
     }
-    else if(littleMario){
-        if(mFallTimer.isActive()){
+    else if(littleMario)
+    {
+        if(mFallTimer.isActive())
+        {
             return;
         }
         qreal p = (m_groundLevel - m_smallPlayer->boundingRect().height()) - m_jumpAnimation->currentValue().toReal() * m_jumpHeight;
-        if(m_platform){
+        if(m_platform)
+        {
             p = (m_platform->pos().y() - m_smallPlayer->boundingRect().height()) - m_jumpAnimation->currentValue().toReal() * m_jumpHeight;
-            if(!(m_platform && m_smallPlayer->isTouchingPlatform(m_platform)) && m_jumpFactor < 0.1 ) {
-                if(m_smallPlayer->pos().x() < m_platform->pos().x() || m_smallPlayer->pos().x() > m_platform->pos().x() + m_platform->boundingRect().width()){
-                    if(!m_platform){
+            if(!(m_platform && m_smallPlayer->isTouchingPlatform(m_platform)) && m_jumpFactor < 0.1 )
+            {
+                if(m_smallPlayer->pos().x() < m_platform->pos().x() || m_smallPlayer->pos().x() > m_platform->pos().x() + m_platform->boundingRect().width())
+                {
+                    if(!m_platform)
+                    {
                         m_platform = 0;
                     }
-                    if(m_smallPlayer->pos().y() < m_groundLevel){
+                    if(m_smallPlayer->pos().y() < m_groundLevel)
+                    {
                         m_smallPlayer->fall();
                         mFallTimer.start();
                         return;
@@ -857,19 +980,26 @@ void MyScene::jumpPlayer(){
         }
         m_smallPlayer->setPos(m_smallPlayer->pos().x(), p);
     }
-    else if(f_ireMario){
-        if(mFallTimer.isActive()){
+    else if(f_ireMario)
+    {
+        if(mFallTimer.isActive())
+        {
             return;
         }
         qreal y2 = (m_groundLevel - fireMario->boundingRect().height()) - m_jumpAnimation->currentValue().toReal() * m_jumpHeight;
-        if(m_platform){
+        if(m_platform)
+        {
             y2 = (m_platform->pos().y() - fireMario->boundingRect().height()) - m_jumpAnimation->currentValue().toReal() * m_jumpHeight;
-            if(!(m_platform && fireMario->isTouchingPlatform(m_platform)) && m_jumpFactor < 0.1 ) {
-                if((fireMario->pos().x() < m_platform->pos().x()) || (fireMario->pos().x() > m_platform->pos().x() + m_platform->boundingRect().width())){
-                    if(!m_platform){
+            if(!(m_platform && fireMario->isTouchingPlatform(m_platform)) && m_jumpFactor < 0.1 )
+            {
+                if((fireMario->pos().x() < m_platform->pos().x()) || (fireMario->pos().x() > m_platform->pos().x() + m_platform->boundingRect().width()))
+                {
+                    if(!m_platform)
+                    {
                         m_platform = 0;
                     }
-                    if(fireMario->pos().y() < m_groundLevel){
+                    if(fireMario->pos().y() < m_groundLevel)
+                    {
                         fireMario->fall();
                         mFallTimer.start();
                         return;
@@ -882,8 +1012,8 @@ void MyScene::jumpPlayer(){
 }
 
 //Creating the scene and adding items
-void MyScene::initPlayField(){
-
+void MyScene::initPlayField()
+{
     setSceneRect(0,0,8000,720);
 
     m_groundLevel = 660;
@@ -1677,60 +1807,69 @@ void MyScene::initPlayField(){
     addItem(h_castle);
 }
 
-void MyScene::controlMushroom(){
-
-    if(bigMario){
+void MyScene::controlMushroom()
+{
+    if(bigMario)
+    {
         m_mushroom2 = new Mushroom(QRectF(mushroomQuestBox->pos(), mushroomQuestBox->boundingRect().size()), 1);
         m_mushroom2->setPos(204, m_groundLevel - m_mushroom2->boundingRect().height()-100);
         m_mushroom2->setZValue(0);
         addItem(m_mushroom2);
         connect(this->m_mushroom2, SIGNAL(marioSizeStatus(int)),this, SLOT(setMarioSize(int)));
     }
-    else if(littleMario){
+    else if(littleMario)
+    {
         m_mushroom2 = new Mushroom(QRectF(mushroomQuestBox->pos(), mushroomQuestBox->boundingRect().size()), 1);
         m_mushroom2->setPos(204, m_groundLevel - m_mushroom2->boundingRect().height()-100);
         m_mushroom2->setZValue(0);
         addItem(m_mushroom2);
         connect(this->m_mushroom2, SIGNAL(marioSizeStatus(int)),this, SLOT(setMarioSize(int)));
     }
-    else if(f_ireMario){
+    else if(f_ireMario)
+    {
         m_mushroom2 = new Mushroom(QRectF(mushroomQuestBox->pos(), mushroomQuestBox->boundingRect().size()), 1);
         m_mushroom2->setPos(204, m_groundLevel - m_mushroom2->boundingRect().height()-100);
         m_mushroom2->setZValue(0);
         addItem(m_mushroom2);
         connect(this->m_mushroom2, SIGNAL(marioSizeStatus(int)),this, SLOT(setMarioSize(int)));
     }
-    else{
+    else
+    {
         return;
     }
 }
 
-void MyScene::controlFlower(){
-
-    if(bigMario){
+void MyScene::controlFlower()
+{
+    if(bigMario)
+    {
         flower = new Flower(QRectF(flowerQuestBox->pos(), flowerQuestBox->boundingRect().size()), 1);
         flower->setPos(1090, m_groundLevel - flower->boundingRect().height()-250);
         flower->setZValue(2);
         addItem(flower);
         connect(this->flower, SIGNAL(marioSizeStatusf(int)),this, SLOT(setMarioSize(int)));
     }
-    else if(f_ireMario){
+    else if(f_ireMario)
+    {
         flower = new Flower(QRectF(flowerQuestBox->pos(), flowerQuestBox->boundingRect().size()), 1);
         flower->setPos(1090, m_groundLevel - flower->boundingRect().height()-250);
         flower->setZValue(2);
         addItem(flower);
         connect(this->flower, SIGNAL(marioSizeStatusf(int)),this, SLOT(setMarioSize(int)));
     }
-    else if(littleMario){
+    else if(littleMario)
+    {
         return;
     }
-    else{
+    else
+    {
         return;
     }
 }
 
 //Timer event for animations
-void MyScene::timerEvent(QTimerEvent *){
+void MyScene::timerEvent(QTimerEvent *)
+{
     m_coins->nextFrame2();
     m_coins2->nextFrame2();
     m_coins3->nextFrame2();
@@ -1898,23 +2037,23 @@ void MyScene::timerEvent(QTimerEvent *){
     flowerQuestBox->nextFrame();
 }
 
-void MyScene::playASound(){
-
+void MyScene::playASound()
+{
     //emit playSound("kick");
 }
 
-void MyScene::playHitWarp(){
-
+void MyScene::playHitWarp()
+{
     emit playSound("kick");
 }
 
-qreal MyScene::jumpFactor() const{
-
+qreal MyScene::jumpFactor() const
+{
     return m_jumpFactor;
 }
 
-void MyScene::setJumpFactor(const qreal &jumpFactor){
-
+void MyScene::setJumpFactor(const qreal &jumpFactor)
+{
     if (m_jumpFactor == jumpFactor)
         return;
 
@@ -1922,35 +2061,43 @@ void MyScene::setJumpFactor(const qreal &jumpFactor){
     emit jumpFactorChanged(m_jumpFactor);
 }
 
-
-
-void MyScene::checkTimer(){
-    if(bigMario){
-        if (0 == m_player->direction()){
+void MyScene::checkTimer()
+{
+    if(bigMario)
+    {
+        if (0 == m_player->direction())
+        {
             m_player->stand();
             m_timer.stop();
         }
-        else if (!m_timer.isActive()){
+        else if (!m_timer.isActive())
+        {
             m_timer.start();
             m_player->walk();
         }
     }
-    else if(littleMario){
-        if (0 == m_smallPlayer->direction()){
+    else if(littleMario)
+    {
+        if (0 == m_smallPlayer->direction())
+        {
             m_smallPlayer->stand();
             m_timer.stop();
         }
-        else if (!m_timer.isActive()){
+        else if (!m_timer.isActive())
+        {
             m_timer.start();
             m_smallPlayer->walk();
         }
     }
-    else if(f_ireMario){
-        if (0 == fireMario->direction()){
+    else if(f_ireMario)
+    {
+        if (0 == fireMario->direction())
+        {
             fireMario->stand();
             m_timer.stop();
         }
-        else if (!m_timer.isActive()){
+        else if (!m_timer.isActive())
+        {
             m_timer.start();
             fireMario->walk();
         }
@@ -1958,84 +2105,111 @@ void MyScene::checkTimer(){
 }
 
 //-------------------------------------------------------------COLLISION DETECTION-----------------------------------------------//
-
-QGraphicsItem* MyScene::collidingPlatforms(){
-    if(bigMario){
+QGraphicsItem* MyScene::collidingPlatforms()
+{
+    if(bigMario)
+    {
         QList<QGraphicsItem*> items =  collidingItems(m_player);
-        foreach(QGraphicsItem *item, items){
-            if(BrickPlatform *brickplatform = qgraphicsitem_cast<BrickPlatform *>(item)){
+        foreach(QGraphicsItem *item, items)
+        {
+            if(BrickPlatform *brickplatform = qgraphicsitem_cast<BrickPlatform *>(item))
+            {
                 return brickplatform;
             }
-            if(QuestBox *questbox = qgraphicsitem_cast<QuestBox *>(item)){
+            if(QuestBox *questbox = qgraphicsitem_cast<QuestBox *>(item))
+            {
                 return questbox;
             }
-            if(NoteBox *notebox = qgraphicsitem_cast<NoteBox *>(item)){
+            if(NoteBox *notebox = qgraphicsitem_cast<NoteBox *>(item))
+            {
                 return notebox;
             }
-            if(WallPlatform *wallplatform = qgraphicsitem_cast<WallPlatform *>(item)){
+            if(WallPlatform *wallplatform = qgraphicsitem_cast<WallPlatform *>(item))
+            {
                 return wallplatform;
             }
-            if(StairBlock *stairblock = qgraphicsitem_cast<StairBlock *>(item)){
+            if(StairBlock *stairblock = qgraphicsitem_cast<StairBlock *>(item))
+            {
                 return stairblock;
             }
-            if(MushroomQuestBox *mushquestbox = qgraphicsitem_cast<MushroomQuestBox *>(item)){
+            if(MushroomQuestBox *mushquestbox = qgraphicsitem_cast<MushroomQuestBox *>(item))
+            {
                 return mushquestbox;
             }
-            if(FlowerQuestBox *flowquestbox = qgraphicsitem_cast<FlowerQuestBox *>(item)){
+            if(FlowerQuestBox *flowquestbox = qgraphicsitem_cast<FlowerQuestBox *>(item))
+            {
                 return flowquestbox;
             }
         }
         return 0;
     }
-    else if(littleMario){
+    else if(littleMario)
+    {
         QList<QGraphicsItem*> items =  collidingItems(m_smallPlayer);
-        foreach(QGraphicsItem *item, items){
-            if(BrickPlatform *brickplatform = qgraphicsitem_cast<BrickPlatform *>(item)){
+        foreach(QGraphicsItem *item, items)
+        {
+            if(BrickPlatform *brickplatform = qgraphicsitem_cast<BrickPlatform *>(item))
+            {
                 return brickplatform;
             }
-            if(QuestBox *questbox = qgraphicsitem_cast<QuestBox *>(item)){
+            if(QuestBox *questbox = qgraphicsitem_cast<QuestBox *>(item))
+            {
                 return questbox;
             }
-            if(NoteBox *notebox = qgraphicsitem_cast<NoteBox *>(item)){
+            if(NoteBox *notebox = qgraphicsitem_cast<NoteBox *>(item))
+            {
                 return notebox;
             }
-            if(WallPlatform *wallplatform = qgraphicsitem_cast<WallPlatform *>(item)){
+            if(WallPlatform *wallplatform = qgraphicsitem_cast<WallPlatform *>(item))
+            {
                 return wallplatform;
             }
-            if(StairBlock *stairblock = qgraphicsitem_cast<StairBlock *>(item)){
+            if(StairBlock *stairblock = qgraphicsitem_cast<StairBlock *>(item))
+            {
                 return stairblock;
             }
-            if(MushroomQuestBox *mushquestbox = qgraphicsitem_cast<MushroomQuestBox *>(item)){
+            if(MushroomQuestBox *mushquestbox = qgraphicsitem_cast<MushroomQuestBox *>(item))
+            {
                 return mushquestbox;
             }
-            if(FlowerQuestBox *flowquestbox = qgraphicsitem_cast<FlowerQuestBox *>(item)){
+            if(FlowerQuestBox *flowquestbox = qgraphicsitem_cast<FlowerQuestBox *>(item))
+            {
                 return flowquestbox;
             }
         }
         return 0;
     }
-    else if(f_ireMario){
+    else if(f_ireMario)
+    {
         QList<QGraphicsItem*> items =  collidingItems(fireMario);
-        foreach(QGraphicsItem *item, items){
-            if(BrickPlatform *brickplatform = qgraphicsitem_cast<BrickPlatform *>(item)){
+        foreach(QGraphicsItem *item, items)
+        {
+            if(BrickPlatform *brickplatform = qgraphicsitem_cast<BrickPlatform *>(item))
+            {
                 return brickplatform;
             }
-            if(QuestBox *questbox = qgraphicsitem_cast<QuestBox *>(item)){
+            if(QuestBox *questbox = qgraphicsitem_cast<QuestBox *>(item))
+            {
                 return questbox;
             }
-            if(NoteBox *notebox = qgraphicsitem_cast<NoteBox *>(item)){
+            if(NoteBox *notebox = qgraphicsitem_cast<NoteBox *>(item))
+            {
                 return notebox;
             }
-            if(WallPlatform *wallplatform = qgraphicsitem_cast<WallPlatform *>(item)){
+            if(WallPlatform *wallplatform = qgraphicsitem_cast<WallPlatform *>(item))
+            {
                 return wallplatform;
             }
-            if(StairBlock *stairblock = qgraphicsitem_cast<StairBlock *>(item)){
+            if(StairBlock *stairblock = qgraphicsitem_cast<StairBlock *>(item))
+            {
                 return stairblock;
             }
-            if(MushroomQuestBox *mushquestbox = qgraphicsitem_cast<MushroomQuestBox *>(item)){
+            if(MushroomQuestBox *mushquestbox = qgraphicsitem_cast<MushroomQuestBox *>(item))
+            {
                 return mushquestbox;
             }
-            if(FlowerQuestBox *flowquestbox = qgraphicsitem_cast<FlowerQuestBox *>(item)){
+            if(FlowerQuestBox *flowquestbox = qgraphicsitem_cast<FlowerQuestBox *>(item))
+            {
                 return flowquestbox;
             }
         }
@@ -2045,53 +2219,64 @@ QGraphicsItem* MyScene::collidingPlatforms(){
 }
 
 //Platform collision detection
-bool MyScene::handleCollisionWithPlatform(){
-    if(bigMario){
+bool MyScene::handleCollisionWithPlatform()
+{
+    if(bigMario)
+    {
         QGraphicsItem* platform =  collidingPlatforms();
-        if(platform) {
+        if(platform)
+        {
             QPointF platformPos = platform->pos();
-            if(m_player->isTouchingFoot(platform)){
+            if(m_player->isTouchingFoot(platform))
+            {
                 m_player->setPos(m_player->pos().x(), platformPos.y() - m_player->boundingRect().height());
                 m_platform = platform;
                 m_jumpAnimation->stop();
                 return true;
             }
         }
-        else{
+        else
+        {
             m_platform = 0;
         }
         return false;
     }
-    else if(littleMario){
+    else if(littleMario)
+    {
         QGraphicsItem* platform =  collidingPlatforms();
-        if(platform){
+        if(platform)
+        {
             QPointF platformPos = platform->pos();
-            if(m_smallPlayer->isTouchingFoot(platform)){
-
+            if(m_smallPlayer->isTouchingFoot(platform))
+            {
                 m_smallPlayer->setPos(m_smallPlayer->pos().x(), platformPos.y() - m_smallPlayer->boundingRect().height());
                 m_platform = platform;
                 m_jumpAnimation->stop();
                 return true;
             }
         }
-        else{
+        else
+        {
             m_platform = 0;
         }
         return false;
     }
-    else if(f_ireMario){
+    else if(f_ireMario)
+    {
         QGraphicsItem* platform = collidingPlatforms();
-        if(platform){
+        if(platform)
+        {
             QPointF platformPos = platform->pos();
-            if(fireMario->isTouchingFoot(platform)){
-
+            if(fireMario->isTouchingFoot(platform))
+            {
                 fireMario->setPos(fireMario->pos().x(), platformPos.y() - fireMario->boundingRect().height());
                 m_platform = platform;
                 m_jumpAnimation->stop();
                 return true;
             }
         }
-        else{
+        else
+        {
             m_platform = 0;
         }
         return false;
@@ -2100,14 +2285,18 @@ bool MyScene::handleCollisionWithPlatform(){
 }
 
 //Question box collision for mario head coin count
-void MyScene::checkCollidingQuestBox(){
-
-    if(bigMario){
+void MyScene::checkCollidingQuestBox()
+{
+    if(bigMario)
+    {
         QList<QGraphicsItem*> items = collidingItems(m_player);
-        foreach (QGraphicsItem* item, items){
+        foreach (QGraphicsItem* item, items)
+        {
             QuestBox* q = qgraphicsitem_cast<QuestBox*>(item);
-            if(q){
-                if(m_player->isTouchingHead(q)){
+            if(q)
+            {
+                if(m_player->isTouchingHead(q))
+                {
                     emit playSound("coin");
                     m_count->increase();
                     m_score->increase();
@@ -2115,12 +2304,16 @@ void MyScene::checkCollidingQuestBox(){
             }
         }
     }
-    else if(littleMario){
+    else if(littleMario)
+    {
         QList<QGraphicsItem*> items = collidingItems(m_smallPlayer);
-        foreach (QGraphicsItem* item, items){
+        foreach (QGraphicsItem* item, items)
+        {
             QuestBox* qs = qgraphicsitem_cast<QuestBox*>(item);
-            if(qs){
-                if(m_smallPlayer->isTouchingHead(qs)){
+            if(qs)
+            {
+                if(m_smallPlayer->isTouchingHead(qs))
+                {
                     emit playSound("coin");
                     m_count->increase();
                     m_score->increase();
@@ -2128,12 +2321,16 @@ void MyScene::checkCollidingQuestBox(){
             }
         }
     }
-    else if(f_ireMario){
+    else if(f_ireMario)
+    {
         QList<QGraphicsItem*> items = collidingItems(fireMario);
-        foreach (QGraphicsItem* item, items){
+        foreach (QGraphicsItem* item, items)
+        {
             QuestBox* fs = qgraphicsitem_cast<QuestBox*>(item);
-            if(fs){
-                if(fireMario->isTouchingHead(fs)){
+            if(fs)
+            {
+                if(fireMario->isTouchingHead(fs))
+                {
                     emit playSound("coin");
                     m_count->increase();
                     m_score->increase();
@@ -2143,14 +2340,18 @@ void MyScene::checkCollidingQuestBox(){
     }
 }
 
-void MyScene::checkCollidingMushroomQuestBox(){
-
-    if(bigMario){
+void MyScene::checkCollidingMushroomQuestBox()
+{
+    if(bigMario)
+    {
         QList<QGraphicsItem*> items = collidingItems(m_player);
-        foreach (QGraphicsItem* item, items) {
+        foreach (QGraphicsItem* item, items)
+        {
             MushroomQuestBox* q = qgraphicsitem_cast<MushroomQuestBox*>(item);
-            if(q){
-                if(m_player->isTouchingHead(q)){
+            if(q)
+            {
+                if(m_player->isTouchingHead(q))
+                {
                     emit spawnMushroom();
                     emit playSound("sprout");
                     m_score->increase();
@@ -2158,12 +2359,16 @@ void MyScene::checkCollidingMushroomQuestBox(){
             }
         }
     }
-    else if(littleMario){
+    else if(littleMario)
+    {
         QList<QGraphicsItem*> items = collidingItems(m_smallPlayer);
-        foreach (QGraphicsItem* item, items){
+        foreach (QGraphicsItem* item, items)
+        {
             MushroomQuestBox* qp = qgraphicsitem_cast<MushroomQuestBox*>(item);
-            if(qp){
-                if(m_smallPlayer->isTouchingHead(qp)){
+            if(qp)
+            {
+                if(m_smallPlayer->isTouchingHead(qp))
+                {
                     emit spawnMushroom();
                     emit playSound("sprout");
                     m_score->increase();
@@ -2171,12 +2376,16 @@ void MyScene::checkCollidingMushroomQuestBox(){
             }
         }
     }
-    else if(f_ireMario){
+    else if(f_ireMario)
+    {
         QList<QGraphicsItem*> items = collidingItems(fireMario);
-        foreach (QGraphicsItem* item, items){
+        foreach (QGraphicsItem* item, items)
+        {
             MushroomQuestBox* fp = qgraphicsitem_cast<MushroomQuestBox*>(item);
-            if(fp){
-                if(fireMario->isTouchingHead(fp)){
+            if(fp)
+            {
+                if(fireMario->isTouchingHead(fp))
+                {
                     //emit spawnMushroom();
                     emit playSound("coin");
                     m_score->increase();
@@ -2186,77 +2395,83 @@ void MyScene::checkCollidingMushroomQuestBox(){
     }
 }
 
-void MyScene::scoreIncrease(int){
-
+void MyScene::scoreIncrease(int)
+{
     m_score->increase();
 }
 
-void MyScene::checkCollidingFlag(){
-
-if(bigMario){
-    QList<QGraphicsItem*> items = collidingItems(m_player);
-    foreach (QGraphicsItem* item, items) {
-
-        Flag* f = qgraphicsitem_cast<Flag*>(item);
-        if(f){
-
-            removeItem(f);
-            addItem(courseclear);
-            emit playSound("stopLevelMusic");
-            emit playSound("levelClear");
-            levelCompleteWindow = new LevelCompleteWindow();
-            levelCompleteWindow->setFixedSize(557,355);
-            levelCompleteWindow->setWindowFlags(((levelCompleteWindow ->windowFlags() | Qt::CustomizeWindowHint)& ~Qt::WindowCloseButtonHint));
-            levelCompleteWindow->exec();
+void MyScene::checkCollidingFlag()
+{
+    if(bigMario)
+    {
+        QList<QGraphicsItem*> items = collidingItems(m_player);
+        foreach (QGraphicsItem* item, items)
+        {
+            Flag* f = qgraphicsitem_cast<Flag*>(item);
+            if(f)
+            {
+                removeItem(f);
+                addItem(courseclear);
+                emit playSound("stopLevelMusic");
+                emit playSound("levelClear");
+                levelCompleteWindow = new LevelCompleteWindow();
+                levelCompleteWindow->setFixedSize(557,355);
+                levelCompleteWindow->setWindowFlags(((levelCompleteWindow ->windowFlags() | Qt::CustomizeWindowHint)& ~Qt::WindowCloseButtonHint));
+                levelCompleteWindow->exec();
+            }
         }
     }
-}
-else if(littleMario){
-    QList<QGraphicsItem*> items = collidingItems(m_smallPlayer);
-    foreach (QGraphicsItem* item, items) {
-
-        Flag* f = qgraphicsitem_cast<Flag*>(item);
-        if(f){
-
-            removeItem(f);
-            addItem(courseclear);
-            emit playSound("stopLevelMusic");
-            emit playSound("levelClear");
-            levelCompleteWindow = new LevelCompleteWindow();
-            levelCompleteWindow->setFixedSize(557,355);
-            levelCompleteWindow->setWindowFlags(((levelCompleteWindow ->windowFlags() | Qt::CustomizeWindowHint)& ~Qt::WindowCloseButtonHint));
-            levelCompleteWindow->exec();
+    else if(littleMario)
+    {
+        QList<QGraphicsItem*> items = collidingItems(m_smallPlayer);
+        foreach (QGraphicsItem* item, items)
+        {
+            Flag* f = qgraphicsitem_cast<Flag*>(item);
+            if(f)
+            {
+                removeItem(f);
+                addItem(courseclear);
+                emit playSound("stopLevelMusic");
+                emit playSound("levelClear");
+                levelCompleteWindow = new LevelCompleteWindow();
+                levelCompleteWindow->setFixedSize(557,355);
+                levelCompleteWindow->setWindowFlags(((levelCompleteWindow ->windowFlags() | Qt::CustomizeWindowHint)& ~Qt::WindowCloseButtonHint));
+                levelCompleteWindow->exec();
+            }
         }
     }
-}
-else if(f_ireMario){
-    QList<QGraphicsItem*> items = collidingItems(fireMario);
-    foreach (QGraphicsItem* item, items) {
-
-        Flag* f = qgraphicsitem_cast<Flag*>(item);
-        if(f){
-
-            removeItem(f);
-            addItem(courseclear);
-            emit playSound("stopLevelMusic");
-            emit playSound("levelClear");
-            levelCompleteWindow = new LevelCompleteWindow();
-            levelCompleteWindow->setFixedSize(557,355);
-            levelCompleteWindow->setWindowFlags(((levelCompleteWindow ->windowFlags() | Qt::CustomizeWindowHint)& ~Qt::WindowCloseButtonHint));
-            levelCompleteWindow->exec();
-         }
-      }
-   }
+    else if(f_ireMario)
+    {
+        QList<QGraphicsItem*> items = collidingItems(fireMario);
+        foreach (QGraphicsItem* item, items)
+        {
+            Flag* f = qgraphicsitem_cast<Flag*>(item);
+            if(f)
+            {
+                removeItem(f);
+                addItem(courseclear);
+                emit playSound("stopLevelMusic");
+                emit playSound("levelClear");
+                levelCompleteWindow = new LevelCompleteWindow();
+                levelCompleteWindow->setFixedSize(557,355);
+                levelCompleteWindow->setWindowFlags(((levelCompleteWindow ->windowFlags() | Qt::CustomizeWindowHint)& ~Qt::WindowCloseButtonHint));
+                levelCompleteWindow->exec();
+            }
+        }
+    }
 }
 
 //Coin collision
-void MyScene::checkCollidingCoin(){
-    if(bigMario){
+void MyScene::checkCollidingCoin()
+{
+    if(bigMario)
+    {
         QList<QGraphicsItem*> items = collidingItems(m_player);
-        foreach (QGraphicsItem* item, items){
+        foreach (QGraphicsItem* item, items)
+        {
             Coin* c = qgraphicsitem_cast<Coin*>(item);
-            if(c){
-
+            if(c)
+            {
                 removeItem(c);
                 emit playSound("coin");
                 m_count->increase();
@@ -2264,40 +2479,50 @@ void MyScene::checkCollidingCoin(){
             }
         }
     }
-    else if(littleMario){
-            QList<QGraphicsItem*> items = collidingItems(m_smallPlayer);
-            foreach (QGraphicsItem* item, items){
-                Coin* c = qgraphicsitem_cast<Coin*>(item);
-                if(c){
-                    removeItem(c);
-                    emit playSound("coin");
-                    m_count->increase();
-                    m_score->increase();              
+    else if(littleMario)
+    {
+        QList<QGraphicsItem*> items = collidingItems(m_smallPlayer);
+        foreach (QGraphicsItem* item, items)
+        {
+            Coin* c = qgraphicsitem_cast<Coin*>(item);
+            if(c)
+            {
+                removeItem(c);
+                emit playSound("coin");
+                m_count->increase();
+                m_score->increase();
             }
         }
     }
-    else if(f_ireMario){
-            QList<QGraphicsItem*> items = collidingItems(fireMario);
-            foreach (QGraphicsItem* item, items){
-                Coin* c = qgraphicsitem_cast<Coin*>(item);
-                if(c){
-                    removeItem(c);
-                    emit playSound("coin");
-                    m_count->increase();
-                    m_score->increase();
+    else if(f_ireMario)
+    {
+        QList<QGraphicsItem*> items = collidingItems(fireMario);
+        foreach (QGraphicsItem* item, items)
+        {
+            Coin* c = qgraphicsitem_cast<Coin*>(item);
+            if(c)
+            {
+                removeItem(c);
+                emit playSound("coin");
+                m_count->increase();
+                m_score->increase();
             }
         }
     }
 }
 
-void MyScene::checkCollidingFlowerQuestBox(){
-
-    if(bigMario){
+void MyScene::checkCollidingFlowerQuestBox()
+{
+    if(bigMario)
+    {
         QList<QGraphicsItem*> items = collidingItems(m_player);
-        foreach (QGraphicsItem* item, items) {
+        foreach (QGraphicsItem* item, items)
+        {
             FlowerQuestBox* f = qgraphicsitem_cast<FlowerQuestBox*>(item);
-            if(f){
-                if(m_player->isTouchingHead(f)){
+            if(f)
+            {
+                if(m_player->isTouchingHead(f))
+                {
                     emit spawnFlower();
                     emit playSound("fsprout");
                     m_score->increase();
@@ -2305,12 +2530,16 @@ void MyScene::checkCollidingFlowerQuestBox(){
             }
         }
     }
-    else if(littleMario){
+    else if(littleMario)
+    {
         QList<QGraphicsItem*> items = collidingItems(m_smallPlayer);
-        foreach (QGraphicsItem* item, items){
+        foreach (QGraphicsItem* item, items)
+        {
             FlowerQuestBox* fp = qgraphicsitem_cast<FlowerQuestBox*>(item);
-            if(fp){
-                if(m_smallPlayer->isTouchingHead(fp)){
+            if(fp)
+            {
+                if(m_smallPlayer->isTouchingHead(fp))
+                {
                     //emit spawnFlower();
                     emit playSound("coin");
                     m_score->increase();
@@ -2318,12 +2547,16 @@ void MyScene::checkCollidingFlowerQuestBox(){
             }
         }
     }
-    else if(f_ireMario){
+    else if(f_ireMario)
+    {
         QList<QGraphicsItem*> items = collidingItems(fireMario);
-        foreach (QGraphicsItem* item, items){
+        foreach (QGraphicsItem* item, items)
+        {
             FlowerQuestBox* fp = qgraphicsitem_cast<FlowerQuestBox*>(item);
-            if(fp){
-                if(fireMario->isTouchingHead(fp)){
+            if(fp)
+            {
+                if(fireMario->isTouchingHead(fp))
+                {
                     emit spawnFlower();
                     emit playSound("fsprout");
                     m_score->increase();
@@ -2333,65 +2566,76 @@ void MyScene::checkCollidingFlowerQuestBox(){
     }
 }
 
-void MyScene::checkCollidingStairBlock(){
-
-    if(bigMario){
+void MyScene::checkCollidingStairBlock()
+{
+    if(bigMario)
+    {
         QList<QGraphicsItem*> items = collidingItems(m_player);
-        foreach (QGraphicsItem* item, items) {
+        foreach (QGraphicsItem* item, items)
+        {
             StairBlock* x = qgraphicsitem_cast<StairBlock*>(item);
-            if(x){
-
-                if(x->pos().x()){
+            if(x)
+            {
+                if(x->pos().x())
+                {
                     if(m_player->pos().x() < x->pos().x())
                         m_player->setPos(x->pos().x()- m_player->boundingRect().width()+5,m_player->pos().y());
-                    if(m_player->pos().x() > x->pos().x()){
+                    if(m_player->pos().x() > x->pos().x())
+                    {
                         //Bug here. I think mario is touching two different size items. This is causing a set position problem.
                         m_player->setPos(x->pos().x() + m_player->boundingRect().width()+370,m_player->pos().y());
                     }
                 }
 
-                if(x->pos().y()) {
+                if(x->pos().y())
+                {
                     if(m_player->pos().y() <= x->pos().y())
                         m_player->setPos(m_player->pos().x(),x->pos().y() - m_player->boundingRect().height());
                 }
-                if(!x->pos().y()){
+                if(!x->pos().y())
+                {
                     x=0;
                 }
-                if(m_player->pos().y() < m_groundLevel) {
-
+                if(m_player->pos().y() < m_groundLevel)
+                {
                     m_player->fall();
                     mFallTimer.start();
                     return;
                 }
                 m_player->setPos(m_player->pos().x(), m_player->pos().y());
-
             }
         }
     }
-    else if(littleMario){
+    else if(littleMario)
+    {
         QList<QGraphicsItem*> items = collidingItems(m_smallPlayer);
-        foreach (QGraphicsItem* item, items) {
+        foreach (QGraphicsItem* item, items)
+        {
             StairBlock* x = qgraphicsitem_cast<StairBlock*>(item);
-            if(x){
-
-                if(x->pos().x()){
+            if(x)
+            {
+                if(x->pos().x())
+                {
                     if(m_smallPlayer->pos().x() < x->pos().x())
                         m_smallPlayer->setPos(x->pos().x()- m_smallPlayer->boundingRect().width()+5,m_smallPlayer->pos().y());
-                    if(m_smallPlayer->pos().x() > x->pos().x()){
+                    if(m_smallPlayer->pos().x() > x->pos().x())
+                    {
                         //Bug here. I think mario is touching two different size items. This is causing a set position problem.
                         m_smallPlayer->setPos(x->pos().x() + m_smallPlayer->boundingRect().width()+370,m_smallPlayer->pos().y());
                     }
                 }
 
-                if(x->pos().y()) {
+                if(x->pos().y())
+                {
                     if(m_smallPlayer->pos().y() <= x->pos().y())
                         m_smallPlayer->setPos(m_smallPlayer->pos().x(),x->pos().y() - m_smallPlayer->boundingRect().height());
                 }
-                if(!x->pos().y()){
+                if(!x->pos().y())
+                {
                     x=0;
                 }
-                if(m_smallPlayer->pos().y() < m_groundLevel) {
-
+                if(m_smallPlayer->pos().y() < m_groundLevel)
+                {
                     m_smallPlayer->fall();
                     mFallTimer.start();
                     return;
@@ -2400,30 +2644,36 @@ void MyScene::checkCollidingStairBlock(){
             }
         }
     }
-    else if(f_ireMario){
+    else if(f_ireMario)
+    {
         QList<QGraphicsItem*> items = collidingItems(fireMario);
-        foreach (QGraphicsItem* item, items) {
+        foreach (QGraphicsItem* item, items)
+        {
             StairBlock* x = qgraphicsitem_cast<StairBlock*>(item);
-            if(x){
-
-                if(x->pos().x()){
+            if(x)
+            {
+                if(x->pos().x())
+                {
                     if(fireMario->pos().x() < x->pos().x())
                         fireMario->setPos(x->pos().x()- fireMario->boundingRect().width()+5,fireMario->pos().y());
-                    if(fireMario->pos().x() > x->pos().x()){
+                    if(fireMario->pos().x() > x->pos().x())
+                    {
                         //Bug here. I think mario is touching two different size items. This is causing a set position problem.
                         fireMario->setPos(x->pos().x() + fireMario->boundingRect().width()+370,fireMario->pos().y());
                     }
                 }
 
-                if(x->pos().y()) {
+                if(x->pos().y())
+                {
                     if(fireMario->pos().y() <= x->pos().y())
                         fireMario->setPos(fireMario->pos().x(),x->pos().y() - fireMario->boundingRect().height());
                 }
-                if(!x->pos().y()){
+                if(!x->pos().y())
+                {
                     x=0;
                 }
-                if(fireMario->pos().y() < m_groundLevel) {
-
+                if(fireMario->pos().y() < m_groundLevel)
+                {
                     fireMario->fall();
                     mFallTimer.start();
                     return;
@@ -2434,52 +2684,63 @@ void MyScene::checkCollidingStairBlock(){
     }
 }
 
-void MyScene::checkCollidingWarpTube() {
-    if(bigMario){
-    QList<QGraphicsItem*> items = collidingItems(m_player);
-    foreach (QGraphicsItem* item, items) {
-
-        WarpTube* w = qgraphicsitem_cast<WarpTube*>(item);
-        if(w){
-            if(w->pos().x()){
-                if(m_player->pos().x() < w->pos().x())
-                    m_player->setPos(w->pos().x()- m_player->boundingRect().width(),m_player->pos().y());
-                if(m_player->pos().x() > w->pos().x()){
-                    m_player->setPos(w->pos().x() + m_player->boundingRect().width()+25,m_player->pos().y());
-                }
-            }
-        }
-     }
-  }
-    else if(littleMario){
-        QList<QGraphicsItem*> items = collidingItems(m_smallPlayer);
-        foreach (QGraphicsItem* item, items) {
-
+void MyScene::checkCollidingWarpTube()
+{
+    if(bigMario)
+    {
+        QList<QGraphicsItem*> items = collidingItems(m_player);
+        foreach (QGraphicsItem* item, items)
+        {
             WarpTube* w = qgraphicsitem_cast<WarpTube*>(item);
-            if(w){
-                if(w->pos().x()){
-                    if(m_smallPlayer->pos().x() < w->pos().x())
-                        m_smallPlayer->setPos(w->pos().x()- m_smallPlayer->boundingRect().width(),m_smallPlayer->pos().y());
-                    if(m_smallPlayer->pos().x() > w->pos().x()){
-                        m_smallPlayer->setPos(w->pos().x() + m_smallPlayer->boundingRect().width()+25,m_smallPlayer->pos().y());
-
+            if(w)
+            {
+                if(w->pos().x())
+                {
+                    if(m_player->pos().x() < w->pos().x())
+                        m_player->setPos(w->pos().x()- m_player->boundingRect().width(),m_player->pos().y());
+                    if(m_player->pos().x() > w->pos().x())
+                    {
+                        m_player->setPos(w->pos().x() + m_player->boundingRect().width()+25,m_player->pos().y());
                     }
                 }
             }
         }
     }
-    else if(f_ireMario){
-        QList<QGraphicsItem*> items = collidingItems(fireMario);
-        foreach (QGraphicsItem* item, items) {
-
+    else if(littleMario)
+    {
+        QList<QGraphicsItem*> items = collidingItems(m_smallPlayer);
+        foreach (QGraphicsItem* item, items)
+        {
             WarpTube* w = qgraphicsitem_cast<WarpTube*>(item);
-            if(w){
-                if(w->pos().x()){
+            if(w)
+            {
+                if(w->pos().x())
+                {
+                    if(m_smallPlayer->pos().x() < w->pos().x())
+                        m_smallPlayer->setPos(w->pos().x()- m_smallPlayer->boundingRect().width(),m_smallPlayer->pos().y());
+                    if(m_smallPlayer->pos().x() > w->pos().x())
+                    {
+                        m_smallPlayer->setPos(w->pos().x() + m_smallPlayer->boundingRect().width()+25,m_smallPlayer->pos().y());
+                    }
+                }
+            }
+        }
+    }
+    else if(f_ireMario)
+    {
+        QList<QGraphicsItem*> items = collidingItems(fireMario);
+        foreach (QGraphicsItem* item, items)
+        {
+            WarpTube* w = qgraphicsitem_cast<WarpTube*>(item);
+            if(w)
+            {
+                if(w->pos().x())
+                {
                     if(fireMario->pos().x() < w->pos().x())
                         fireMario->setPos(w->pos().x()- fireMario->boundingRect().width(),fireMario->pos().y());
-                    if(fireMario->pos().x() > w->pos().x()){
+                    if(fireMario->pos().x() > w->pos().x())
+                    {
                         fireMario->setPos(w->pos().x() + fireMario->boundingRect().width()+25,fireMario->pos().y());
-
                     }
                 }
             }

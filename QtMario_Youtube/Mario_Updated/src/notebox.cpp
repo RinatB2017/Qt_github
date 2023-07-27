@@ -7,38 +7,38 @@
 #include <QPainter>
 
 NoteBox::NoteBox(int length,QGraphicsItem *parent): QGraphicsItem(parent)
-      ,mCurrentFrame(), mLength(length)
-
+  ,mCurrentFrame(), mLength(length)
 {
     setFlag(ItemClipsToShape);
     mPixmap10 = QPixmap(":images/notebox.png");
-
 }
 
-void NoteBox::nextFrame(){
-
+void NoteBox::nextFrame()
+{
     mCurrentFrame += 65;
-    if (mCurrentFrame >= 518 ) {
+    if (mCurrentFrame >= 518 )
+    {
         mCurrentFrame = 0;
-
     }
 }
 
-QRectF NoteBox::boundingRect() const {
+QRectF NoteBox::boundingRect() const
+{
     return QRectF(0,0,63* mLength,63);
-
 }
 
-void NoteBox::paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget) {
+void NoteBox::paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget)
+{
     Q_UNUSED(widget);
     Q_UNUSED(option);
-    for(int i = 0; i < 63*mLength; ++i) {
+    for(int i = 0; i < 63*mLength; ++i)
+    {
         painter->drawPixmap(i*63,0, mPixmap10, mCurrentFrame, 0,63, 63);
     }
     setTransformOriginPoint(boundingRect().center());
 }
 
-int NoteBox::type() const {
-
-  return Type;
+int NoteBox::type() const
+{
+    return Type;
 }

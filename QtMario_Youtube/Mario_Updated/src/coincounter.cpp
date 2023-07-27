@@ -7,7 +7,8 @@
 #include <QFont>
 #include<QFontDatabase>
 
-CoinCounter::CoinCounter(QGraphicsItem *parent): QGraphicsTextItem(parent){
+CoinCounter::CoinCounter(QGraphicsItem *parent): QGraphicsTextItem(parent)
+{
     // initialize the coinCount to 0
     coinCount = 0;
 
@@ -19,11 +20,13 @@ CoinCounter::CoinCounter(QGraphicsItem *parent): QGraphicsTextItem(parent){
     setFont(QFont("CoinCount2",40));
 }
 
-void CoinCounter::increase(){
+void CoinCounter::increase()
+{
     coinCount++;
     setPlainText(QString("") + QString::number(coinCount));
 }
 
-int CoinCounter::getCount(){
+int CoinCounter::getCount()
+{
     return coinCount;
 }

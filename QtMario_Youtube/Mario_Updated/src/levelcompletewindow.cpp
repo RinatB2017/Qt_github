@@ -14,19 +14,18 @@ LevelCompleteWindow::LevelCompleteWindow(QWidget *parent) :
     ui->setupUi(this);
 }
 
-LevelCompleteWindow::~LevelCompleteWindow(){
-
+LevelCompleteWindow::~LevelCompleteWindow()
+{
     delete ui;
 }
 
-void LevelCompleteWindow::on_pushButton_clicked(){
-
+void LevelCompleteWindow::on_pushButton_clicked()
+{
     qApp->quit();
     QProcess::startDetached(qApp->arguments()[0], qApp->arguments());
-
 }
 
-void LevelCompleteWindow::on_pushButton_2_clicked(){
-
+void LevelCompleteWindow::on_pushButton_2_clicked()
+{
     qApp->quit();
 }

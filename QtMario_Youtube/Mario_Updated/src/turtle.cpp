@@ -20,72 +20,74 @@ Turtle::Turtle(QRectF platformRect, int direction, QGraphicsItem *parent) : QGra
     timer->start(100);
 }
 
-void Turtle::nextFrame() {
-
+void Turtle::nextFrame()
+{
     mCurrentFrame6 += 72;
-    if (mCurrentFrame6 >= 1420 ) {
+    if (mCurrentFrame6 >= 1420)
+    {
         mCurrentFrame6 = 0;
     }
 
-    if(this->pos().x() < mPlatform.x() || this->pos().x() > mPlatform.x()+ mPlatform.width()) {
+    if(this->pos().x() < mPlatform.x() || this->pos().x() > mPlatform.x()+ mPlatform.width())
+    {
         mDirection = -mDirection;
         setTransform(QTransform(-mDirection, 0, 0, 1, boundingRect().width(), 0));
     }
     setPos(this->pos().x() + (mDirection*7), this->pos().y());
 
     //Collision Detection
-        QList<QGraphicsItem *> colliding_items = collidingItems();
+    QList<QGraphicsItem *> colliding_items = collidingItems();
 
-        //If one of the colliding items is an Enemy, destroy both the bullet and the enemy
-        for (int i = 0, n = colliding_items.size(); i < n; ++i){
-            if (typeid(*(colliding_items[i])) == typeid(Player)){
-
-                emit marioSizeStatus(0);
-                delete colliding_items[i];
-                qDebug()<<"Mario deleted small mario added";
-                delete this;
-                return;
-            }
+    //If one of the colliding items is an Enemy, destroy both the bullet and the enemy
+    for (int i = 0, n = colliding_items.size(); i < n; ++i)
+    {
+        if (typeid(*(colliding_items[i])) == typeid(Player))
+        {
+            emit marioSizeStatus(0);
+            delete colliding_items[i];
+            qDebug()<<"Mario deleted small mario added";
+            delete this;
+            return;
         }
-        for (int i = 0, n = colliding_items.size(); i < n; ++i){
-            if (typeid(*(colliding_items[i])) == typeid(SmallMario)){
-
-                emit marioSizeStatus(1);
-                delete colliding_items[i];
-                qDebug()<<"small mario dead";
-                delete this;
-                return;
-
-            }
+    }
+    for (int i = 0, n = colliding_items.size(); i < n; ++i)
+    {
+        if (typeid(*(colliding_items[i])) == typeid(SmallMario))
+        {
+            emit marioSizeStatus(1);
+            delete colliding_items[i];
+            qDebug()<<"small mario dead";
+            delete this;
+            return;
         }
-        for (int i = 0, n = colliding_items.size(); i < n; ++i){
-            if (typeid(*(colliding_items[i])) == typeid(FireMario)){
-
-                emit marioSizeStatus(6);
-                delete colliding_items[i];
-                qDebug()<<"Fire mario deleted small mario added";
-                delete this;
-                return;
-            }
+    }
+    for (int i = 0, n = colliding_items.size(); i < n; ++i)
+    {
+        if (typeid(*(colliding_items[i])) == typeid(FireMario))
+        {
+            emit marioSizeStatus(6);
+            delete colliding_items[i];
+            qDebug()<<"Fire mario deleted small mario added";
+            delete this;
+            return;
         }
+    }
 }
 
-QRectF Turtle::boundingRect() const {
-
+QRectF Turtle::boundingRect() const
+{
     return QRectF(0,0,68,60);
 }
 
-void Turtle::paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget) {
-
+void Turtle::paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget)
+{
     painter->drawPixmap(0,0, mPixmap6, mCurrentFrame6, 0,68,60);
     setTransformOriginPoint(boundingRect().center());
     Q_UNUSED(widget);
     Q_UNUSED(option);
 }
 
-int Turtle::type() const {
-
+int Turtle::type() const
+{
     return Type;
 }
-
-

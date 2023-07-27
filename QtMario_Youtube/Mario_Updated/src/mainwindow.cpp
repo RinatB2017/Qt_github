@@ -8,8 +8,8 @@
 #include "weatherballoon.h"
 #include "weatherstation.h"
 
-MainWindow::MainWindow(){
-
+MainWindow::MainWindow()
+{
     createActions();
     createMenus();
     createScene();
@@ -17,26 +17,26 @@ MainWindow::MainWindow(){
     setWindowTitle("Super Mario");
 
     //soundManager = new SoundManager();
-   // connect(this, &MainWindow::playSound, soundManager, &SoundManager::playSoundEffect);
+    // connect(this, &MainWindow::playSound, soundManager, &SoundManager::playSoundEffect);
     //connect(title, &Title::killSound,this, &MainWindow::changeMusic);
 
     //emit playSound("theme");
 }
 
-void MainWindow::closeEvent(QCloseEvent *){
-
+void MainWindow::closeEvent(QCloseEvent *)
+{
     setting->writeSettings();
     qApp->quit();
 }
 
-void MainWindow::createActions(){
-
+void MainWindow::createActions()
+{
     returnAction = new QAction(tr("&Return to Title"), this);
     returnAction->setShortcut(tr("Ctrl+R"));
     returnAction->setStatusTip(tr("Return to the title screen"));
 
-    for(int i=0;i<maxState;++i){
-
+    for(int i=0;i<maxState;++i)
+    {
         saveStateAction[i] = new QAction("-Empty-", this);
         loadStateAction[i] = new QAction("-Empty-", this);
     }
@@ -57,7 +57,7 @@ void MainWindow::createActions(){
     fullScreenAction->setStatusTip(tr("Fullscreen View"));
     connect(fullScreenAction, SIGNAL(triggered()), this, SLOT(alterScreen()));
 
-    settingsAction = new QAction(tr("&Settings"), this);    
+    settingsAction = new QAction(tr("&Settings"), this);
     settingsAction->setStatusTip(tr("Change Game Settings"));
     connect(settingsAction, SIGNAL(triggered()), this, SLOT(settings()));
 
@@ -69,14 +69,15 @@ void MainWindow::createActions(){
     setting->readSettings();
 }
 
-void MainWindow::createMenus(){
-
+void MainWindow::createMenus()
+{
     fileMenu = menuBar()->addMenu(tr("&File"));
     fileMenu->addAction(returnAction);
     saveSubMenu = fileMenu->addMenu(tr("&Save"));
     loadSubMenu = fileMenu->addMenu(tr("&Load"));
 
-    for(int i=0;i<maxState;i++){
+    for(int i=0;i<maxState;i++)
+    {
         saveSubMenu->addAction(saveStateAction[i]);
         loadSubMenu->addAction(loadStateAction[i]);
     }
@@ -94,54 +95,47 @@ void MainWindow::createMenus(){
     helpMenu->setToolTip("Developer Info");
     helpMenu->addAction(aboutAction);
 
-   //Add Weather menu
+    //Add Weather menu
     weatherMenu = menuBar()->addMenu(tr("&UDP"));
     weatherMenu->setToolTip("UDP ");
     weatherMenu->addAction(weatherStationAction);
 }
 
-void MainWindow::createScene(){
-
+void MainWindow::createScene()
+{
     view = new View;
     title = new Title(view);
 }
 
-void MainWindow::setSize(){
-
+void MainWindow::setSize()
+{
     this->setFixedSize(1280,740);
     int x = ((screenGeometry.width() - this->width()) / 2);
     int y = ((screenGeometry.height() - this->height()) / 2);
     this->move(x, y);
 }
 
-void MainWindow::settings(){
-
+void MainWindow::settings()
+{
     setting->setState();
     setting->show();
 }
 
-void MainWindow::alterScreen(){
-
+void MainWindow::alterScreen()
+{
     setting->alterState();
 }
 
-void MainWindow::showAbout(){
-
+void MainWindow::showAbout()
+{
     about = new About_Dialog;
     about->exec();
 }
 
 //Show weather station UDP Datagram window
-void MainWindow::showWeather() {
-
-weatherBalloon = new WeatherBalloon();
-weatherStation = new WeatherStation();
-weatherStation->exec();
-
+void MainWindow::showWeather()
+{
+    weatherBalloon = new WeatherBalloon();
+    weatherStation = new WeatherStation();
+    weatherStation->exec();
 }
-
-
-
-
-
-

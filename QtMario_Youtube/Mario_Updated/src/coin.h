@@ -11,8 +11,7 @@
 #include "objecttype.h"
 
 class Coin : public QGraphicsItem
-{
-
+{    
 public:
     enum { Type = UserType + coinType };
     Coin(QGraphicsItem *parent = 0);

@@ -7,35 +7,35 @@
 #include <QPainter>
 
 Flag::Flag(QGraphicsItem *parent): QGraphicsItem(parent)
-      ,mCurrentFrame()
-
+  ,mCurrentFrame()
 {
     setFlag(ItemClipsToShape);
     mPixmap8 = QPixmap(":images/mflag.png");
-
 }
 
-void Flag::nextFrame(){
-
+void Flag::nextFrame()
+{
     mCurrentFrame += 322;
-    if (mCurrentFrame >= 5439 ) {
+    if (mCurrentFrame >= 5439 )
+    {
         mCurrentFrame = 0;
-
     }
 }
 
-QRectF Flag::boundingRect() const {
+QRectF Flag::boundingRect() const
+{
     return QRectF(0,0,115,84);
-
 }
 
-void Flag::paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget) {
+void Flag::paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget)
+{
     Q_UNUSED(widget);
     Q_UNUSED(option);
     painter->drawPixmap(0,0, mPixmap8, mCurrentFrame, 0,115, 84);
     setTransformOriginPoint(boundingRect().center());
 }
+
 int Flag::type() const
 {
-  return Type;
+    return Type;
 }

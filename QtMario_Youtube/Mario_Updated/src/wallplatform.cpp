@@ -13,27 +13,32 @@ WallPlatform::WallPlatform( int length, QGraphicsItem *parent)
     mPixmap = QPixmap(":images/wallplatform.png");
 }
 
-void WallPlatform::nextFrame() {
+void WallPlatform::nextFrame()
+{
     mCurrentFrame += 48;
-    if (mCurrentFrame >= 768 ) {
+    if (mCurrentFrame >= 768 )
+    {
         mCurrentFrame = 0;
     }
 }
 
-QRectF WallPlatform::boundingRect() const {
+QRectF WallPlatform::boundingRect() const
+{
     return QRectF(0,0,48* mLength,48);
 }
 
-void WallPlatform::paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget) {
+void WallPlatform::paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget)
+{
     Q_UNUSED(widget);
     Q_UNUSED(option);
-    for(int i = 0; i < 48*mLength; ++i) {
+    for(int i = 0; i < 48*mLength; ++i)
+    {
         painter->drawPixmap(i*48,0, mPixmap, mCurrentFrame, 0,48, 48);
     }
     setTransformOriginPoint(boundingRect().center());
 }
 
-int WallPlatform::type() const {
+int WallPlatform::type() const
+{
     return Type;
 }
-

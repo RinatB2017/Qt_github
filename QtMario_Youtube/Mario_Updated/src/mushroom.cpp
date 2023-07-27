@@ -10,7 +10,6 @@
 #include <QDebug>
 
 Mushroom::Mushroom(QRectF platformRect, int direction,QGraphicsItem *parent): QGraphicsItem(parent),mCurrentFrame(),mPlatform(platformRect), mDirection(direction)
-
 {
     setFlag(ItemClipsToShape);
     mPixmap = QPixmap(":images/m40.png");
@@ -23,36 +22,40 @@ Mushroom::Mushroom(QRectF platformRect, int direction,QGraphicsItem *parent): QG
     right2 = false;
 }
 
-Mushroom::~Mushroom(){
+Mushroom::~Mushroom()
+{
 
 }
 
-void Mushroom::nextFrame(){
-
-    if(up) {
-        if(this->pos().y() > mPlatform.y()-40) {
-
+void Mushroom::nextFrame()
+{
+    if(up)
+    {
+        if(this->pos().y() > mPlatform.y()-40)
+        {
             setPos(this->pos().x(), this->pos().y() - (mDirection *5));
         }
     }
-    if(right){
-        if(this->pos().y() == mPlatform.y() -42) {
-
+    if(right)
+    {
+        if(this->pos().y() == mPlatform.y() -42)
+        {
             up = false;
             setPos(this->pos().x() + (mDirection *5), this->pos().y());
         }
     }
 
-    if(down) {
-        if(this->pos().x() > mPlatform.x() + mPlatform.width()+20) {
-
+    if(down)
+    {
+        if(this->pos().x() > mPlatform.x() + mPlatform.width()+20)
+        {
             right = false;
             setPos(this->pos().x() , this->pos().y() + (mDirection *25));
         }
     }
 
-    if(this->pos().y() > 619) {
-
+    if(this->pos().y() > 619)
+    {
         down =false;
         setPos(this->pos().x() + (mDirection *5), 620);
     }
@@ -60,18 +63,21 @@ void Mushroom::nextFrame(){
     //Collision Detection
     QList<QGraphicsItem *> colliding_items = collidingItems();
 
-    for (int i = 0, n = colliding_items.size(); i < n; ++i){
-        if (typeid(*(colliding_items[i])) == typeid(Player)){
+    for (int i = 0, n = colliding_items.size(); i < n; ++i)
+    {
+        if (typeid(*(colliding_items[i])) == typeid(Player))
+        {
             scene()->removeItem(this);
             emit marioSizeStatus(3);
-
 
             delete this;
             return;
         }
     }
-    for (int i = 0, n = colliding_items.size(); i < n; ++i){
-        if (typeid(*(colliding_items[i])) == typeid(SmallMario)){
+    for (int i = 0, n = colliding_items.size(); i < n; ++i)
+    {
+        if (typeid(*(colliding_items[i])) == typeid(SmallMario))
+        {
             scene()->removeItem(colliding_items[i]);
             scene()->removeItem(this);
             emit marioSizeStatus(2);
@@ -83,21 +89,20 @@ void Mushroom::nextFrame(){
     }
 }
 
-QRectF Mushroom::boundingRect() const {
+QRectF Mushroom::boundingRect() const
+{
     return QRectF(0,0,70,50);
-
 }
 
-void Mushroom::paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget) {
+void Mushroom::paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget)
+{
     painter->drawPixmap(0,0, mPixmap, mCurrentFrame, 0,70, 50);
     setTransformOriginPoint(boundingRect().center());
     Q_UNUSED(widget);
     Q_UNUSED(option);
-
 }
 
-int Mushroom::type() const {
+int Mushroom::type() const
+{
     return Type;
 }
-
-

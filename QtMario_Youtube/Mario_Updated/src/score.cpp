@@ -7,8 +7,8 @@
 #include <QFont>
 #include<QFontDatabase>
 
-
-Score::Score(QGraphicsItem *parent): QGraphicsTextItem(parent){
+Score::Score(QGraphicsItem *parent): QGraphicsTextItem(parent)
+{
     // initialize the coinCount to 0
     scoreCount = 0;
 
@@ -18,17 +18,15 @@ Score::Score(QGraphicsItem *parent): QGraphicsTextItem(parent){
     setPlainText(QString("") + QString::number(scoreCount));
     setDefaultTextColor(Qt::black);
     setFont(QFont("CoinCount2",30));
-
-
 }
 
-void Score::increase(){
+void Score::increase()
+{
     scoreCount++;
     setPlainText(QString("") + QString::number(scoreCount * 15));
-
 }
 
-int Score::getScore(){
+int Score::getScore()
+{
     return scoreCount;
 }
-

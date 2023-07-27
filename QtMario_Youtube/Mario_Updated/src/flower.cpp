@@ -11,7 +11,6 @@
 #include <QDebug>
 
 Flower::Flower(QRectF platformRect, int direction,QGraphicsItem *parent): QGraphicsItem(parent),mCurrentFrame(),mPlatform(platformRect), mDirection(direction)
-
 {
     setFlag(ItemClipsToShape);
     mPixmap = QPixmap(":images/flower.png");
@@ -22,41 +21,42 @@ Flower::Flower(QRectF platformRect, int direction,QGraphicsItem *parent): QGraph
     down = true;
     right = true;
     right2 = false;
-
 }
 
-void Flower::nextFrame(){
-
-    if(up) {
-        if(this->pos().y() > mPlatform.y()-40) {
-
+void Flower::nextFrame()
+{
+    if(up)
+    {
+        if(this->pos().y() > mPlatform.y()-40)
+        {
             setPos(this->pos().x(), this->pos().y() - (mDirection *5));
         }
     }
-    if(right){
-        if(this->pos().y() == mPlatform.y() -42) {
-
+    if(right)
+    {
+        if(this->pos().y() == mPlatform.y() -42)
+        {
             up = false;
-
         }
     }
 
     //Collision Detection
     QList<QGraphicsItem *> colliding_items = collidingItems();
-    for (int i = 0, n = colliding_items.size(); i < n; ++i){
-        if (typeid(*(colliding_items[i])) == typeid(Player)){
-
+    for (int i = 0, n = colliding_items.size(); i < n; ++i)
+    {
+        if (typeid(*(colliding_items[i])) == typeid(Player))
+        {
             emit marioSizeStatusf(4);
             delete colliding_items[i];
-
             delete this;
             return;
         }
     }
 
-    for (int i = 0, n = colliding_items.size(); i < n; ++i){
-        if (typeid(*(colliding_items[i])) == typeid(FireMario)){
-
+    for (int i = 0, n = colliding_items.size(); i < n; ++i)
+    {
+        if (typeid(*(colliding_items[i])) == typeid(FireMario))
+        {
             emit marioSizeStatusf(5);
 
             //delete colliding_items[i];
@@ -66,19 +66,20 @@ void Flower::nextFrame(){
     }
 }
 
-QRectF Flower::boundingRect() const {
+QRectF Flower::boundingRect() const
+{
     return QRectF(0,0,70,50);
-
 }
 
-void Flower::paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget) {
+void Flower::paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget)
+{
     painter->drawPixmap(0,0, mPixmap, mCurrentFrame, 0,70, 50);
     setTransformOriginPoint(boundingRect().center());
     Q_UNUSED(widget);
     Q_UNUSED(option);
-
 }
 
-int Flower::type() const {
+int Flower::type() const
+{
     return Type;
 }

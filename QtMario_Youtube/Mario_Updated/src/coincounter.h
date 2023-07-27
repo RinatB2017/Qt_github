@@ -8,7 +8,8 @@
 
 #include <QGraphicsTextItem>
 
-class CoinCounter: public QGraphicsTextItem{
+class CoinCounter: public QGraphicsTextItem
+{
 public:
     CoinCounter(QGraphicsItem * parent=0);
     void increase();

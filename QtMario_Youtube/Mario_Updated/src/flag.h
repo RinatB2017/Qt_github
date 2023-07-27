@@ -17,7 +17,7 @@ public:
     void nextFrame();
     QRectF boundingRect() const;
     void paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget);
-int type() const;
+    int type() const;
 private:
 
     int mCurrentFrame;

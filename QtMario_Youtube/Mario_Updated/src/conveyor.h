@@ -17,7 +17,6 @@ public:
     void paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget);
 
 private:
-
     int mCurrentFrame11;
     QPixmap mPixmap11;
 };
